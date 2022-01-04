@@ -1,0 +1,388 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JVM基本 | ImVan</title><meta name="keywords" content="JVM,面试,GC"><meta name="author" content="CoderVan"><meta name="copyright" content="CoderVan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于JVM面试的简单复习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM基本">
+<meta property="og:url" content="https://codervan99.github.io/2021/09/06/JVM/index.html">
+<meta property="og:site_name" content="ImVan">
+<meta property="og:description" content="关于JVM面试的简单复习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages2018.cnblogs.com%2Fblog%2F1168906%2F201804%2F1168906-20180408130516951-1881667927.png&refer=http%3A%2F%2Fimages2018.cnblogs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1643863741&t=6163e50e88ffd727eaf288b60a13136d">
+<meta property="article:published_time" content="2021-09-06T02:23:45.000Z">
+<meta property="article:modified_time" content="2022-01-04T04:49:11.476Z">
+<meta property="article:author" content="CoderVan">
+<meta property="article:tag" content="JVM">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="GC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages2018.cnblogs.com%2Fblog%2F1168906%2F201804%2F1168906-20180408130516951-1881667927.png&refer=http%3A%2F%2Fimages2018.cnblogs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1643863741&t=6163e50e88ffd727eaf288b60a13136d"><link rel="shortcut icon" href="/./img/favicon.png"><link rel="canonical" href="https://codervan99.github.io/2021/09/06/JVM/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: CoderVan","link":"链接: ","source":"来源: ImVan","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JVM基本',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-04 12:49:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/photowall/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></div><div class="menus_item"><a class="site-page" href="/commentsboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-ellipsis-h"></i><span> 更多</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/log/"><i class="fa-fw fas fa-list-alt"></i><span> 更新日志</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-star"></i><span> 我的收藏</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages2018.cnblogs.com%2Fblog%2F1168906%2F201804%2F1168906-20180408130516951-1881667927.png&amp;refer=http%3A%2F%2Fimages2018.cnblogs.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=jpeg?sec=1643863741&amp;t=6163e50e88ffd727eaf288b60a13136d')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ImVan</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/photowall/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></div><div class="menus_item"><a class="site-page" href="/commentsboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-ellipsis-h"></i><span> 更多</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/log/"><i class="fa-fw fas fa-list-alt"></i><span> 更新日志</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-star"></i><span> 我的收藏</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JVM基本</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-06T02:23:45.000Z" title="发表于 2021-09-06 10:23:45">2021-09-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-04T04:49:11.476Z" title="更新于 2022-01-04 12:49:11">2022-01-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JVM基本"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="JVM简单复习"><a href="#JVM简单复习" class="headerlink" title="JVM简单复习"></a>JVM简单复习</h1><h2 id="1、了解JVM的基本体系结构"><a href="#1、了解JVM的基本体系结构" class="headerlink" title="1、了解JVM的基本体系结构"></a>1、了解JVM的基本体系结构</h2><p><img src="/img%5Cstudy%5CJVM%5C1638436538746.png" alt="1638436538746"></p>
+<h2 id="2、类加载器和双亲委派机制"><a href="#2、类加载器和双亲委派机制" class="headerlink" title="2、类加载器和双亲委派机制"></a>2、类加载器和双亲委派机制</h2><p><img src="/img%5Cstudy%5CJVM%5C1638436571128.png" alt="1638436571128"></p>
+<h3 id="类加载器（Class-loader）"><a href="#类加载器（Class-loader）" class="headerlink" title="类加载器（Class loader）"></a>类加载器（Class loader）</h3><p>1、让我们新建一个Person类，通过实例化new关键字获取到一个person对象</p>
+<p>2、通过person.getClass()方法获取到Class类，再通过getClassLoader拿到类加载器</p>
+<p>3、可以发现获取到类加载器我们还可以通过.getParent()方法获取到父类加载器</p>
+<p>​    <img src="/img%5Cstudy%5CJVM%5C1638437023635.png" alt="1638437023635"></p>
+<p>4、通过父类再拿到父类就报null了，这里是因为没有了吗？是因为往上走的加载器不是用java语言写的，当然拿不到啦，Java底层是用C、C++写的，所以java最初也叫C++–，就是想去掉指针和内存分配这种繁琐的工作，内存分配交给JVM去做！</p>
+<p>5、这里我们可以从图中的图片看到我们大致classLoader有AppClassLoader、ExtClassLoader(ext目录)、RootLoader(rt.jar)。</p>
+<h3 id="双亲委派机制：安全"><a href="#双亲委派机制：安全" class="headerlink" title="双亲委派机制：安全"></a>双亲委派机制：安全</h3><p>1、当我们创建一个自己手写的String类时，运行会报错（最新idea写出来就不会有运行按钮）</p>
+<p>2、为什么会这样了，这就不得不提双亲委派机制。</p>
+<p>3、类加载器收到类加载的请求，会将这个请求去向上委托父加载器（ExtClassLoader）去完成，一直向上委托并且直到启动类（root）加载器，启动类加载器检查是否能够加载这个类，能加载就结束，使用当前的加载器，否则，抛出异常，通知子加载器进行加载</p>
+<p>4、重复步骤3</p>
+<p>​                </p>
+<h2 id="3、Native-方法区"><a href="#3、Native-方法区" class="headerlink" title="3、Native 方法区"></a>3、Native 方法区</h2><h3 id="native"><a href="#native" class="headerlink" title="native"></a>native</h3><p>native：凡是带了native关键字的，说明java的范围达不到，需要去调用底层c语言的库！</p>
+<p>具体的调用过程就是进入本地方法栈，然后本地方法栈会去调用JNI（本地方法接口），JNI再去调用本地方法库，为什么会有JNI这个东西就是因为为了去拓展java的使用，去融合不同的编程语言为java所用</p>
+<p>为了配合native java设计时专门在内存区域中开辟了一块标记区域，就是 native method stack ，即本地方法栈去登记native方法，在最终执行的时候，加载本地方法库中的方法通过JNI！</p>
+<h3 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h3><p>​    方法区是被所有线程共享，所有字段和方法字节码，以及一些特殊方法，如构造函数，接口代码也在此定义，简单说，所有定义的方法的信息都保存在该区域，此区域属于共享区间；</p>
+<p>​    <strong>静态变量（static）常量（final）类信息（class，构造方法，接口定义），运行时的常量池存在方法区中，但是实例变量在堆内存中，和方法区无关</strong></p>
+<h2 id="4、堆"><a href="#4、堆" class="headerlink" title="4、堆"></a>4、堆</h2><p><img src="/img%5Cstudy%5CJVM%5C1638606438220.png" alt="1638606438220"></p>
+<p>如图所示，堆里面分为三个空间，<em><strong>新生区：伊甸园、幸存区1、幸存区2，老年区、元空间（永久区）</strong></em></p>
+<p>需要注意的是，元空间逻辑上是存在的，但是物理上是不存在的，我们可以通过查看初始化内存和最大内存，并且对jvm打印细节看到，所以元空间也有人叫为<em><strong>非堆</strong></em></p>
+<p>直接上代码：</p>
+<p>-Xms 初始化内存：1/64</p>
+<p>-Xmx 最大总内存：Pc最大内存的1/4</p>
+<p>-XX:+PrintGCDetails //打印GC垃圾回收信息</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError  //oom DUMP</p>
+<p><img src="/img%5Cstudy%5CJVM%5C1638607692772.png" alt="1638607692772"></p>
+<p>使用专业工具进行分析：</p>
+<p>​    MAT，Jprofiler：</p>
+<ul>
+<li>分析Dump内存文件，快速定位内存泄露；</li>
+<li>获得堆中的数据</li>
+<li>获得大的对象</li>
+</ul>
+<p><img src="/img%5Cstudy%5CJVM%5C1638610327534.png" alt="1638610327534"></p>
+<h2 id="5、GC（垃圾回收机制）"><a href="#5、GC（垃圾回收机制）" class="headerlink" title="5、GC（垃圾回收机制）"></a>5、GC（垃圾回收机制）</h2><pre><code>### 引用计数法
+</code></pre>
+<p><img src="/img%5Cstudy%5CJVM%5C1638668563679.png" alt="1638668563679"></p>
+<p>这种方法本身并不高效，jvm中一般不会采用这种GC算法</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/img%5Cstudy%5CJVM%5C1638670329411.png" alt="1638670329411"></p>
+<p>从这张图片中我们可以看到，复制算法指的是发生在Eden和幸存区的一种GC算法，每一次进行GC时，Eden和from区都会被清空，from区会复制一份放到空的to区，然后from会被清空，to变成from，from变成to，一般情况下，在就<em><strong>经历15次GC后</strong></em>，活下来的就会进入养老区，当然我们可以通过jvm参数手动去设置这个值。</p>
+<p>好处：没有内存碎片</p>
+<p>坏处：1、浪费了内存空间：多了一般的空间永远是空的to，假设对象100%存活的话，这种算法的收益率就会很低，所以这种算法的最佳使用场景就是：新生区对象存活度比较低的时候</p>
+<h3 id="标记清除压缩算法"><a href="#标记清除压缩算法" class="headerlink" title="标记清除压缩算法"></a>标记清除压缩算法</h3><pre><code>#### 标记清除
+</code></pre>
+<p><img src="/img%5Cstudy%5CJVM%5C1638671827945.png" alt="1638671827945"></p>
+<p>好处：不需要开辟额外的空间，上面的to区不再需要</p>
+<p>坏处：有内存碎片的产生，而且需要进行多次扫描，时间和资源成本增加了</p>
+<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p><img src="/img%5Cstudy%5CJVM%5C1638671916966.png" alt="1638671916966"></p>
+<p>进行对象的移动，防止内存碎片的产生，但是时间和资源成本又增加了</p>
+<h3 id="标记清除压缩"><a href="#标记清除压缩" class="headerlink" title="标记清除压缩"></a>标记清除压缩</h3><p><img src="/img%5Cstudy%5CJVM%5C1638672102617.png" alt="1638672102617"></p>
+<h3 id="GC（分代收集算法）算法总结"><a href="#GC（分代收集算法）算法总结" class="headerlink" title="GC（分代收集算法）算法总结"></a>GC（分代收集算法）算法总结</h3><p>内存效率：复制算法&gt;标记清除算法&gt;标记压缩算法（时间复杂度）</p>
+<p>内存整齐度：复制算法=标记压缩算法&gt;标记清除算法</p>
+<p>内存利用率：标记压缩算法=标记清除算法&gt;复制算法</p>
+<p><em><strong>没有最优的算法，只有最适合的算法！</strong></em></p>
+<p><strong>新生区</strong></p>
+<ul>
+<li><p>存活率低</p>
+</li>
+<li><p>复制算法</p>
+</li>
+</ul>
+<p><strong>老年区</strong></p>
+<ul>
+<li>区域大：存活率高</li>
+<li>标记清除（当内存碎片不多的时候）+标记压缩（内存碎片多就进行一次）混合使用</li>
+</ul>
+<p>6、JMM（Java Memory Model）</p>
+<p><img src="/img%5Cstudy%5CJVM%5C1638675349616.png" alt="1638675349616"></p>
+<p><img src="/img%5Cstudy%5CJVM%5C1638675388923.png" alt="1638675388923"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">CoderVan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codervan99.github.io/2021/09/06/JVM/">https://codervan99.github.io/2021/09/06/JVM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codervan99.github.io" target="_blank">ImVan</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JVM/">JVM</a><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a><a class="post-meta__tags" href="/tags/GC/">GC</a></div><div class="post_share"><div class="social-share" data-image="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages2018.cnblogs.com%2Fblog%2F1168906%2F201804%2F1168906-20180408130516951-1881667927.png&amp;refer=http%3A%2F%2Fimages2018.cnblogs.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=jpeg?sec=1643863741&amp;t=6163e50e88ffd727eaf288b60a13136d" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/./img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/./img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/./img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/./img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/12/Springboot%E6%95%B4%E5%90%88Shiro/"><img class="next-cover" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg-blog.csdnimg.cn%2Fimg_convert%2Fae1c49c224f98abda53fff4968db43a8.png&amp;refer=http%3A%2F%2Fimg-blog.csdnimg.cn&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=jpeg?sec=1643863690&amp;t=35a4141809d5d9601c0108df2f9d7dba" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Springboot整合Shiro</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM%E7%AE%80%E5%8D%95%E5%A4%8D%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">JVM简单复习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E4%BA%86%E8%A7%A3JVM%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">1、了解JVM的基本体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%92%8C%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">2、类加载器和双亲委派机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%88Class-loader%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">类加载器（Class loader）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%9A%E5%AE%89%E5%85%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">双亲委派机制：安全</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81Native-%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-number">1.3.</span> <span class="toc-text">3、Native 方法区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#native"><span class="toc-number">1.3.1.</span> <span class="toc-text">native</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA%EF%BC%88Method-Area%EF%BC%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">方法区（Method Area）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%A0%86"><span class="toc-number">1.4.</span> <span class="toc-text">4、堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81GC%EF%BC%88%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5、GC（垃圾回收机制）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.1.</span> <span class="toc-text">复制算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="toc-number">1.5.2.</span> <span class="toc-text">标记清除压缩算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.5.3.</span> <span class="toc-text">标记压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.5.4.</span> <span class="toc-text">标记清除压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GC%EF%BC%88%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%EF%BC%89%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93"><span class="toc-number">1.5.5.</span> <span class="toc-text">GC（分代收集算法）算法总结</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages2018.cnblogs.com%2Fblog%2F1168906%2F201804%2F1168906-20180408130516951-1881667927.png&amp;refer=http%3A%2F%2Fimages2018.cnblogs.com&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=jpeg?sec=1643863741&amp;t=6163e50e88ffd727eaf288b60a13136d')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By CoderVan</div><div class="footer_custom_text">Hi, 欢迎来到我的博客!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'hello-cloudbase-4gjgd7n6ee8a7932',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'hello-cloudbase-4gjgd7n6ee8a7932',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="坚持,努力,热情,积极,向上,自信" data-fontsize="15px" data-random="true" async="async"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
