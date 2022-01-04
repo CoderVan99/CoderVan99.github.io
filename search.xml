@@ -3,12 +3,12 @@
   <entry>
     <title>JVM基本</title>
     <url>/2021/09/06/JVM/</url>
-    <content><![CDATA[<h1 id="JVM简单复习"><a href="#JVM简单复习" class="headerlink" title="JVM简单复习"></a>JVM简单复习</h1><h2 id="1、了解JVM的基本体系结构"><a href="#1、了解JVM的基本体系结构" class="headerlink" title="1、了解JVM的基本体系结构"></a>1、了解JVM的基本体系结构</h2><p><img src="/img%5Cstudy%5CJVM%5C1638436538746.png" alt="1638436538746"></p>
-<h2 id="2、类加载器和双亲委派机制"><a href="#2、类加载器和双亲委派机制" class="headerlink" title="2、类加载器和双亲委派机制"></a>2、类加载器和双亲委派机制</h2><p><img src="/img%5Cstudy%5CJVM%5C1638436571128.png" alt="1638436571128"></p>
+    <content><![CDATA[<h1 id="JVM简单复习"><a href="#JVM简单复习" class="headerlink" title="JVM简单复习"></a>JVM简单复习</h1><h2 id="1、了解JVM的基本体系结构"><a href="#1、了解JVM的基本体系结构" class="headerlink" title="1、了解JVM的基本体系结构"></a>1、了解JVM的基本体系结构</h2><p><img src="/img/study/JVM/1638436538746.png" alt="1638436538746"></p>
+<h2 id="2、类加载器和双亲委派机制"><a href="#2、类加载器和双亲委派机制" class="headerlink" title="2、类加载器和双亲委派机制"></a>2、类加载器和双亲委派机制</h2><p><img src="/img/study/JVM/1638436571128.png" alt="1638436571128"></p>
 <h3 id="类加载器（Class-loader）"><a href="#类加载器（Class-loader）" class="headerlink" title="类加载器（Class loader）"></a>类加载器（Class loader）</h3><p>1、让我们新建一个Person类，通过实例化new关键字获取到一个person对象</p>
 <p>2、通过person.getClass()方法获取到Class类，再通过getClassLoader拿到类加载器</p>
 <p>3、可以发现获取到类加载器我们还可以通过.getParent()方法获取到父类加载器</p>
-<p>​    <img src="/img%5Cstudy%5CJVM%5C1638437023635.png" alt="1638437023635"></p>
+<p>​    <img src="/img/study/JVM/1638437023635.png" alt="1638437023635"></p>
 <p>4、通过父类再拿到父类就报null了，这里是因为没有了吗？是因为往上走的加载器不是用java语言写的，当然拿不到啦，Java底层是用C、C++写的，所以java最初也叫C++–，就是想去掉指针和内存分配这种繁琐的工作，内存分配交给JVM去做！</p>
 <p>5、这里我们可以从图中的图片看到我们大致classLoader有AppClassLoader、ExtClassLoader(ext目录)、RootLoader(rt.jar)。</p>
 <h3 id="双亲委派机制：安全"><a href="#双亲委派机制：安全" class="headerlink" title="双亲委派机制：安全"></a>双亲委派机制：安全</h3><p>1、当我们创建一个自己手写的String类时，运行会报错（最新idea写出来就不会有运行按钮）</p>
@@ -21,7 +21,7 @@
 <p>为了配合native java设计时专门在内存区域中开辟了一块标记区域，就是 native method stack ，即本地方法栈去登记native方法，在最终执行的时候，加载本地方法库中的方法通过JNI！</p>
 <h3 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h3><p>​    方法区是被所有线程共享，所有字段和方法字节码，以及一些特殊方法，如构造函数，接口代码也在此定义，简单说，所有定义的方法的信息都保存在该区域，此区域属于共享区间；</p>
 <p>​    <strong>静态变量（static）常量（final）类信息（class，构造方法，接口定义），运行时的常量池存在方法区中，但是实例变量在堆内存中，和方法区无关</strong></p>
-<h2 id="4、堆"><a href="#4、堆" class="headerlink" title="4、堆"></a>4、堆</h2><p><img src="/img%5Cstudy%5CJVM%5C1638606438220.png" alt="1638606438220"></p>
+<h2 id="4、堆"><a href="#4、堆" class="headerlink" title="4、堆"></a>4、堆</h2><p><img src="/img/study/JVM/1638606438220.png" alt="1638606438220"></p>
 <p>如图所示，堆里面分为三个空间，<em><strong>新生区：伊甸园、幸存区1、幸存区2，老年区、元空间（永久区）</strong></em></p>
 <p>需要注意的是，元空间逻辑上是存在的，但是物理上是不存在的，我们可以通过查看初始化内存和最大内存，并且对jvm打印细节看到，所以元空间也有人叫为<em><strong>非堆</strong></em></p>
 <p>直接上代码：</p>
@@ -29,7 +29,7 @@
 <p>-Xmx 最大总内存：Pc最大内存的1/4</p>
 <p>-XX:+PrintGCDetails //打印GC垃圾回收信息</p>
 <p>-XX:+HeapDumpOnOutOfMemoryError  //oom DUMP</p>
-<p><img src="/img%5Cstudy%5CJVM%5C1638607692772.png" alt="1638607692772"></p>
+<p><img src="/img/study/JVM/1638607692772.png" alt="1638607692772"></p>
 <p>使用专业工具进行分析：</p>
 <p>​    MAT，Jprofiler：</p>
 <ul>
@@ -37,23 +37,23 @@
 <li>获得堆中的数据</li>
 <li>获得大的对象</li>
 </ul>
-<p><img src="/img%5Cstudy%5CJVM%5C1638610327534.png" alt="1638610327534"></p>
+<p><img src="/img/study/JVM/1638610327534.png" alt="1638610327534"></p>
 <h2 id="5、GC（垃圾回收机制）"><a href="#5、GC（垃圾回收机制）" class="headerlink" title="5、GC（垃圾回收机制）"></a>5、GC（垃圾回收机制）</h2><pre><code>### 引用计数法
 </code></pre>
-<p><img src="/img%5Cstudy%5CJVM%5C1638668563679.png" alt="1638668563679"></p>
+<p><img src="/img/study/JVM/1638668563679.png" alt="1638668563679"></p>
 <p>这种方法本身并不高效，jvm中一般不会采用这种GC算法</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/img%5Cstudy%5CJVM%5C1638670329411.png" alt="1638670329411"></p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/img/study/JVM/1638670329411.png" alt="1638670329411"></p>
 <p>从这张图片中我们可以看到，复制算法指的是发生在Eden和幸存区的一种GC算法，每一次进行GC时，Eden和from区都会被清空，from区会复制一份放到空的to区，然后from会被清空，to变成from，from变成to，一般情况下，在就<em><strong>经历15次GC后</strong></em>，活下来的就会进入养老区，当然我们可以通过jvm参数手动去设置这个值。</p>
 <p>好处：没有内存碎片</p>
 <p>坏处：1、浪费了内存空间：多了一般的空间永远是空的to，假设对象100%存活的话，这种算法的收益率就会很低，所以这种算法的最佳使用场景就是：新生区对象存活度比较低的时候</p>
 <h3 id="标记清除压缩算法"><a href="#标记清除压缩算法" class="headerlink" title="标记清除压缩算法"></a>标记清除压缩算法</h3><pre><code>#### 标记清除
 </code></pre>
-<p><img src="/img%5Cstudy%5CJVM%5C1638671827945.png" alt="1638671827945"></p>
+<p><img src="/img/study/JVM/1638671827945.png" alt="1638671827945"></p>
 <p>好处：不需要开辟额外的空间，上面的to区不再需要</p>
 <p>坏处：有内存碎片的产生，而且需要进行多次扫描，时间和资源成本增加了</p>
-<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p><img src="/img%5Cstudy%5CJVM%5C1638671916966.png" alt="1638671916966"></p>
+<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p><img src="/img/study/JVM/1638671916966.png" alt="1638671916966"></p>
 <p>进行对象的移动，防止内存碎片的产生，但是时间和资源成本又增加了</p>
-<h3 id="标记清除压缩"><a href="#标记清除压缩" class="headerlink" title="标记清除压缩"></a>标记清除压缩</h3><p><img src="/img%5Cstudy%5CJVM%5C1638672102617.png" alt="1638672102617"></p>
+<h3 id="标记清除压缩"><a href="#标记清除压缩" class="headerlink" title="标记清除压缩"></a>标记清除压缩</h3><p><img src="/img/study/JVM/1638672102617.png" alt="1638672102617"></p>
 <h3 id="GC（分代收集算法）算法总结"><a href="#GC（分代收集算法）算法总结" class="headerlink" title="GC（分代收集算法）算法总结"></a>GC（分代收集算法）算法总结</h3><p>内存效率：复制算法&gt;标记清除算法&gt;标记压缩算法（时间复杂度）</p>
 <p>内存整齐度：复制算法=标记压缩算法&gt;标记清除算法</p>
 <p>内存利用率：标记压缩算法=标记清除算法&gt;复制算法</p>
@@ -71,8 +71,8 @@
 <li>标记清除（当内存碎片不多的时候）+标记压缩（内存碎片多就进行一次）混合使用</li>
 </ul>
 <p>6、JMM（Java Memory Model）</p>
-<p><img src="/img%5Cstudy%5CJVM%5C1638675349616.png" alt="1638675349616"></p>
-<p><img src="/img%5Cstudy%5CJVM%5C1638675388923.png" alt="1638675388923"></p>
+<p><img src="/img/study/JVM/1638675349616.png" alt="1638675349616"></p>
+<p><img src="/img/study/JVM/1638675388923.png" alt="1638675388923"></p>
 ]]></content>
       <categories>
         <category>学习</category>
@@ -81,18 +81,6 @@
         <tag>JVM</tag>
         <tag>面试</tag>
         <tag>GC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/08/08/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>其实我想了很久，我的第一篇博客叫什么好呢，最后我还是打下“Hello World”这个标题，因为作为一个程序员，我们总是在第一个程序输出“Hello World”，小破站刚刚搭建好，这是我用了自己的心思diy的东西，虽然它很普通，但对我来说这是新的起点，它将承载我的学习知识，生活，所思所想，我会用它来记录想记录的一切，从今天起，这艘小船将会启航，这<br>是它的第一个Hello World，未来，将会是星辰与大海~</p>
-<h2 id="Never-Stop"><a href="#Never-Stop" class="headerlink" title="Never Stop"></a>Never Stop</h2>]]></content>
-      <categories>
-        <category>心情</category>
-      </categories>
-      <tags>
-        <tag>Hello World</tag>
       </tags>
   </entry>
   <entry>
@@ -105,7 +93,7 @@
 <li>对比 Spring Security，可能没有 Spring Security 做的功能强大，但是在实际工作时可能并不需要那么复杂的东西，所以使用小而简单的 Shiro 就足够了。</li>
 <li>下载地址：<a href="https://shiro.apache.org/">https://shiro.apache.org/</a></li>
 </ul>
-<h3 id="1-2-Shiro的基本功能点"><a href="#1-2-Shiro的基本功能点" class="headerlink" title="1.2    Shiro的基本功能点"></a>1.2    Shiro的基本功能点</h3><p><img src="/img%5Cstudy%5CSpringboot-Shiro%5CShiro.png" alt="基本功能点" title="基本功能点"></p>
+<h3 id="1-2-Shiro的基本功能点"><a href="#1-2-Shiro的基本功能点" class="headerlink" title="1.2    Shiro的基本功能点"></a>1.2    Shiro的基本功能点</h3><p><img src="/img/study/Springboot-Shiro/Shiro.png" alt="基本功能点" title="基本功能点"></p>
 <ul>
 <li><strong>Authentication</strong>：身份认证 / 登录，验证用户是不是拥有相应的身份；</li>
 <li><strong>Authorization</strong>：授权，即权限验证，验证某个已认证的用户是否拥有某个权限；即判断用户是否能做事情，常见的如：验证某个用户是否拥有某个角色。或者细粒度的验证某个用户对某个资源是否具有某个权限；</li>
@@ -119,7 +107,7 @@
 <li><strong>Remember Me</strong>：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登录了。</li>
 </ul>
 <p><strong>记住一点，Shiro 不会去维护用户、维护权限；这些需要我们自己去设计 / 提供；然后通过相应的接口注入给 Shiro 即可。</strong></p>
-<h3 id="1-3-从外部来看Shiro"><a href="#1-3-从外部来看Shiro" class="headerlink" title="1.3    从外部来看Shiro"></a>1.3    从外部来看Shiro</h3><p><img src="/img%5Cstudy%5CSpringboot-Shiro%5CShrio1.png"></p>
+<h3 id="1-3-从外部来看Shiro"><a href="#1-3-从外部来看Shiro" class="headerlink" title="1.3    从外部来看Shiro"></a>1.3    从外部来看Shiro</h3><p><img src="/img/study/Springboot-Shiro/Shrio1.png"></p>
 <p>我们可以从图中看到，应用代码直接交互的对象是 Subject，也就是说 Shiro 的对外 API 核心就是 Subject；其每个 API 的含义：</p>
 <p><strong>Subject</strong>：主体，代表了当前 “用户”，这个用户不一定是一个具体的人，与当前应用交互的任何东西都是 Subject，如网络爬虫，机器人等；即一个抽象概念；所有 Subject 都绑定到 SecurityManager，与 Subject 的所有交互都会委托给 SecurityManager；可以把 Subject 认为是一个门面；SecurityManager 才是实际的执行者；</p>
 <p><strong>SecurityManager</strong>：安全管理器；即所有与安全有关的操作都会与 SecurityManager 交互；且它管理着所有 Subject；可以看出它是 Shiro 的核心，它负责与后边介绍的其他组件进行交互，如果学习过 SpringMVC，你可以把它看成 DispatcherServlet 前端控制器；</p>
@@ -130,7 +118,7 @@
 <li>我们需要给 Shiro 的 SecurityManager 注入 Realm，从而让 SecurityManager 能得到合法的用户及其权限进行判断。</li>
 </ol>
 <p><strong>从以上也可以看出，Shiro 不提供维护用户 / 权限，而是通过 Realm 让开发人员自己注入。</strong></p>
-<h3 id="1-4-看看Shiro的内部架构"><a href="#1-4-看看Shiro的内部架构" class="headerlink" title="1.4 看看Shiro的内部架构"></a>1.4 看看Shiro的内部架构</h3><p><img src="C:\Users\10903\Desktop\我的md笔记\Shiro2.png"></p>
+<h3 id="1-4-看看Shiro的内部架构"><a href="#1-4-看看Shiro的内部架构" class="headerlink" title="1.4 看看Shiro的内部架构"></a>1.4 看看Shiro的内部架构</h3><p><img src="/img/study/Springboot-Shiro/Shiro2.png"></p>
 <ul>
 <li><strong>Subject</strong>：主体，可以看到主体可以是任何可以与应用交互的 “用户”；</li>
 <li><strong>SecurityManager</strong>：相当于 SpringMVC 中的 DispatcherServlet 或者 Struts2 中的 FilterDispatcher；是 Shiro 的心脏；所有具体的交互都通过 SecurityManager 进行控制；它管理着所有 Subject、且负责进行认证和授权、及会话、缓存的管理。</li>
@@ -218,7 +206,7 @@
 <li><p>用户认证编写<code>UserRealm</code>中的认证（doGetAuthenticationInfo）</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//认证</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;执行了=&gt;认证doGetAuthorizationInfo&quot;</span>);</span><br><span class="line">    <span class="comment">// 用户名、密码， 数据中取</span></span><br><span class="line">    String name = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    String password = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line"></span><br><span class="line">    UsernamePasswordToken userToken = (UsernamePasswordToken) token;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!userToken.getUsername().equals(name)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;<span class="comment">//抛出异常 UnknownAccountException</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 密码认证，shiro做</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(<span class="string">&quot;&quot;</span>,password,<span class="string">&quot;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h4 id="9、项目结构如下"><a href="#9、项目结构如下" class="headerlink" title="9、项目结构如下"></a>9、项目结构如下</h4><p><img src="C:\Users\10903\Desktop\我的md笔记\struct1.png"></p>
+<h4 id="9、项目结构如下"><a href="#9、项目结构如下" class="headerlink" title="9、项目结构如下"></a>9、项目结构如下</h4><p><img src="/img/study/Springboot-Shiro/struct1.png"></p>
 <blockquote>
 <p>到这里为止，我们使用Shiro实现登录拦截和用户认证就完成了，现在我们要将Shiro和Mybatis整合起来，实现从数据库中拿到用户的数据并进行判断</p>
 </blockquote>
@@ -253,7 +241,7 @@ public User queryUserByName(String name) &#123;
 </code></pre>
 </li>
 <li><p>测试一下能否从数据库中查出数据</p>
-<p>数据库信息：<br><img src="C:\Users\10903\Desktop\我的md笔记\data.png"></p>
+<p>数据库信息：<br><img src="/img/study/Springboot-Shiro/data.png"></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">UserService userService;</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(userService.queryUserByName(<span class="string">&quot;张三&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -299,7 +287,7 @@ public User queryUserByName(String name) &#123;
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;</span><br><span class="line">      xmlns:shiro=&quot;http://www.thymeleaf.org/thymeleaf-extras-shiro&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;首页&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;h1&gt;首页&lt;/h1&gt;</span><br><span class="line">    &lt;p th:text=&quot;$&#123;msg&#125;&quot;&gt;&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--用session实现，配合UserRealm中的session实现--&gt;</span><br><span class="line">    &lt;!--&lt;div th:if=&quot;$&#123;session.loginUser==null&#125;&quot;&gt;</span><br><span class="line">        &lt;a th:href=&quot;@&#123;/toLogin&#125;&quot;&gt;登录&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;--&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div shiro:notAuthenticated&gt;</span><br><span class="line">        &lt;a th:href=&quot;@&#123;/toLogin&#125;&quot;&gt;登录&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;hr&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div shiro:hasPermission=&quot;user:add&quot;&gt;</span><br><span class="line">        &lt;a th:href=&quot;@&#123;/user/add&#125;&quot;&gt;add&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;div shiro:hasPermission=&quot;user:update&quot;&gt;</span><br><span class="line">        &lt;a th:href=&quot;@&#123;/user/update&#125;&quot;&gt;update&lt;/a&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="2-6-最终所有代码展示"><a href="#2-6-最终所有代码展示" class="headerlink" title="2.6 最终所有代码展示"></a>2.6 最终所有代码展示</h3><ol>
-<li><p>项目结构<br><img src="C:\Users\10903\Desktop\我的md笔记\struc2.png"></p>
+<li><p>项目结构<br><img src="/img/study/Springboot-Shiro/struc2.png"></p>
 </li>
 <li><p>ShiroConfig</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean( name=&quot;shiroFilterFactoryBean&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">getShiroFilterFactoryBean</span><span class="params">(<span class="meta">@Qualifier(&quot;getDefaultWebSecurityManager&quot;)</span> DefaultWebSecurityManager defaultWebSecurityManager)</span> </span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean bean = <span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line">        <span class="comment">// 设置安全管理器</span></span><br><span class="line">        bean.setSecurityManager(defaultWebSecurityManager);</span><br><span class="line">        Map&lt;String, String&gt; filterMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">        <span class="comment">//授权，正常情况下，没有授权会跳转到为授权页面</span></span><br><span class="line">        filterMap.put(<span class="string">&quot;/user/add&quot;</span>,<span class="string">&quot;perms[user:add]&quot;</span>);</span><br><span class="line">        filterMap.put(<span class="string">&quot;/user/update&quot;</span>,<span class="string">&quot;perms[user:update]&quot;</span>);</span><br><span class="line">        filterMap.put(<span class="string">&quot;/user/*&quot;</span>,<span class="string">&quot;authc&quot;</span>);</span><br><span class="line">        bean.setFilterChainDefinitionMap(filterMap);</span><br><span class="line">        bean.setLoginUrl(<span class="string">&quot;/toLogin&quot;</span>);</span><br><span class="line">        <span class="comment">//为授权页面</span></span><br><span class="line">        bean.setUnauthorizedUrl(<span class="string">&quot;/noauto&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//2. DefaultWebSecurityManager</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DefaultWebSecurityManager <span class="title">getDefaultWebSecurityManager</span><span class="params">(<span class="meta">@Qualifier(&quot;userRealm&quot;)</span> UserRealm userRealm)</span> </span>&#123;</span><br><span class="line">        DefaultWebSecurityManager securityManager = <span class="keyword">new</span> DefaultWebSecurityManager();</span><br><span class="line">        <span class="comment">// 关联userRealm</span></span><br><span class="line">        securityManager.setRealm(userRealm);</span><br><span class="line">        <span class="keyword">return</span> securityManager;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//1. 创建realm对象，需要自定义类</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserRealm <span class="title">userRealm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> UserRealm();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 整合ShiroDialect： 用来整合 Shiro thymeleaf</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroDialect <span class="title">getShiroDialect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ShiroDialect();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
@@ -334,6 +322,18 @@ public User queryUserByName(String name) &#123;
         <tag>Shiro</tag>
         <tag>整合</tag>
         <tag>Security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/08/08/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/</url>
+    <content><![CDATA[<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>其实我想了很久，我的第一篇博客叫什么好呢，最后我还是打下“Hello World”这个标题，因为作为一个程序员，我们总是在第一个程序输出“Hello World”，小破站刚刚搭建好，这是我用了自己的心思diy的东西，虽然它很普通，但对我来说这是新的起点，它将承载我的学习知识，生活，所思所想，我会用它来记录想记录的一切，从今天起，这艘小船将会启航，这<br>是它的第一个Hello World，未来，将会是星辰与大海~</p>
+<h2 id="Never-Stop"><a href="#Never-Stop" class="headerlink" title="Never Stop"></a>Never Stop</h2>]]></content>
+      <categories>
+        <category>心情</category>
+      </categories>
+      <tags>
+        <tag>Hello World</tag>
       </tags>
   </entry>
 </search>
