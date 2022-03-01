@@ -1,0 +1,637 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>尚硅谷-尚医通项目总结 | ImVan</title><meta name="keywords" content="项目总结,Spring Cloud,分布式,微服务,前后端分离"><meta name="author" content="CoderVan"><meta name="copyright" content="CoderVan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="尚硅谷-尚医通项目总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="尚硅谷-尚医通项目总结">
+<meta property="og:url" content="https://codervan99.github.io/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="ImVan">
+<meta property="og:description" content="尚硅谷-尚医通项目总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2.baidu.com/it/u=2194323701,705415303&fm=253&fmt=auto&app=138&f=JPEG?w=798&h=500">
+<meta property="article:published_time" content="2022-03-01T08:47:22.000Z">
+<meta property="article:modified_time" content="2022-03-01T09:08:53.881Z">
+<meta property="article:author" content="CoderVan">
+<meta property="article:tag" content="项目总结">
+<meta property="article:tag" content="Spring Cloud">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="前后端分离">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2.baidu.com/it/u=2194323701,705415303&fm=253&fmt=auto&app=138&f=JPEG?w=798&h=500"><link rel="shortcut icon" href="/./img/favicon.png"><link rel="canonical" href="https://codervan99.github.io/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: CoderVan","link":"链接: ","source":"来源: ImVan","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '尚硅谷-尚医通项目总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-01 17:08:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/photowall/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></div><div class="menus_item"><a class="site-page" href="/commentsboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-ellipsis-h"></i><span> 更多</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/log/"><i class="fa-fw fas fa-list-alt"></i><span> 更新日志</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-star"></i><span> 我的收藏</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img2.baidu.com/it/u=2194323701,705415303&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=798&amp;h=500')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ImVan</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-book"></i><span> 文章</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/photowall/"><i class="fa-fw fas fa-images"></i><span> 照片墙</span></a></div><div class="menus_item"><a class="site-page" href="/commentsboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fas fa-ellipsis-h"></i><span> 更多</span><i class="fas fa-chevron-down expand hide"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/log/"><i class="fa-fw fas fa-list-alt"></i><span> 更新日志</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fas fa-star"></i><span> 我的收藏</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">尚硅谷-尚医通项目总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-01T08:47:22.000Z" title="发表于 2022-03-01 16:47:22">2022-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-01T09:08:53.881Z" title="更新于 2022-03-01 17:08:53">2022-03-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="尚硅谷-尚医通项目总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-项目后台系统功能总结"><a href="#1-项目后台系统功能总结" class="headerlink" title="1. 项目后台系统功能总结"></a>1. 项目后台系统功能总结</h2><h3 id="1-1-医院设置管理"><a href="#1-1-医院设置管理" class="headerlink" title="1.1 医院设置管理"></a>1.1 医院设置管理</h3><h4 id="1-1-1-医院设置的列表"><a href="#1-1-1-医院设置的列表" class="headerlink" title="1.1.1 医院设置的列表"></a>1.1.1 医院设置的列表</h4>
+
+<blockquote>
+<p>显示所有已经添加到数据库的所有医院的设置，包括对医院删除，锁定，修改。还可以对具体医院进行搜索</p>
+</blockquote>
+<h4 id="1-1-2-医院设置的添加"><a href="#1-1-2-医院设置的添加" class="headerlink" title="1.1.2 医院设置的添加"></a>1.1.2 医院设置的添加</h4>
+
+<blockquote>
+<p>添加一所医院，api基础路径配置的是该医院管理系统的地址以及端口号（不要乱配置，后面因为这个地方端口号不正确导致与医院平台对接会出现拒绝访问这个坑！）</p>
+</blockquote>
+<h4 id="1-1-3-医院列表的展示"><a href="#1-1-3-医院列表的展示" class="headerlink" title="1.1.3 医院列表的展示"></a>1.1.3 医院列表的展示</h4>
+
+<blockquote>
+<p>提供对所有已添加到统一挂号平台的医院的一些信息的展示，<strong>查看具体信息</strong>，<strong>查看该医院排班</strong>，<strong>对该医院进行下线处理</strong>等操作</p>
+</blockquote>
+
+
+
+
+
+
+<h3 id="1-2-数据字典"><a href="#1-2-数据字典" class="headerlink" title="1.2 数据字典"></a>1.2 数据字典</h3>
+
+<blockquote>
+<p>用来存储一些<strong>不需要经常改动但需要经常使用</strong>的固定值</p>
+<p>可以对数据字典进行导入和导出：使用excel文件</p>
+</blockquote>
+<h3 id="1-3-用户管理"><a href="#1-3-用户管理" class="headerlink" title="1.3 用户管理"></a>1.3 用户管理</h3><h4 id="1-3-1-用户列表"><a href="#1-3-1-用户列表" class="headerlink" title="1.3.1 用户列表"></a>1.3.1 用户列表</h4>
+
+<blockquote>
+<p>默认显示第一页的所有用户，可以对用户进行搜索、查看具体信息、进行锁定等</p>
+</blockquote>
+
+
+
+
+<h4 id="1-3-2-认证审批列表"><a href="#1-3-2-认证审批列表" class="headerlink" title="1.3.2 认证审批列表"></a>1.3.2 认证审批列表</h4>
+
+<blockquote>
+<p>可以对<strong>用户进行认证审批</strong>：包括<strong>通过和不通过</strong>两个功能，未认证的用户不能进行挂号</p>
+</blockquote>
+<h3 id="1-4-订单管理"><a href="#1-4-订单管理" class="headerlink" title="1.4 订单管理"></a>1.4 订单管理</h3>
+
+<blockquote>
+<p>查看所有的订单信息包括<strong>精确到医生和就诊人以及订单的状态，还可以对订单的详细信息进行查看</strong></p>
+</blockquote>
+
+
+
+
+<h3 id="1-5-统计管理"><a href="#1-5-统计管理" class="headerlink" title="1.5 统计管理"></a>1.5 统计管理</h3>
+
+<blockquote>
+<p>对订单进行统计：显示折线图</p>
+<p>//TODO 这里报了一个503的错误 swagger测试后端接口没有问题，请求能进到网关，但不能进入具体的服务，未修复</p>
+</blockquote>
+<h2 id="2-项目前台系统功能总结"><a href="#2-项目前台系统功能总结" class="headerlink" title="2.  项目前台系统功能总结"></a>2.  项目前台系统功能总结</h2><h3 id="2-1-首页数据显示"><a href="#2-1-首页数据显示" class="headerlink" title="2.1 首页数据显示"></a>2.1 首页数据显示</h3>
+
+<blockquote>
+<p>进入首页默认加载全部的医院 可以点击等级和地区的选项对医院进行查询，也可以通过搜索框对医院名称进行模糊查询</p>
+</blockquote>
+<h3 id="2-2-医院详情显示"><a href="#2-2-医院详情显示" class="headerlink" title="2.2 医院详情显示"></a>2.2 医院详情显示</h3>
+
+<blockquote>
+<p>点击具体医院后进入详情页，<strong>对医院的所有科室进行显示</strong>，并且通过左边的标签进行具体的操作，比如<strong>医院详情</strong>等</p>
+</blockquote>
+<h3 id="2-3-用户登录功能"><a href="#2-3-用户登录功能" class="headerlink" title="2.3 用户登录功能"></a>2.3 用户登录功能</h3>
+
+<blockquote>
+<p>在未登录的状态下，当用户点击右上角登录按钮或者点击具体科室进行预约挂号，将会弹出登录框</p>
+</blockquote>
+<h4 id="2-3-1-手机验证码登录"><a href="#2-3-1-手机验证码登录" class="headerlink" title="2.3.1 手机验证码登录"></a>2.3.1 手机验证码登录</h4><blockquote>
+<p>用户选择手机验证码登录后，输入验证码正确后完成登录</p>
+</blockquote>
+<h4 id="2-3-2-微信登录"><a href="#2-3-2-微信登录" class="headerlink" title="2.3.2 微信登录"></a>2.3.2 微信登录</h4>
+
+<blockquote>
+<p>用户通过微信扫码进行登录</p>
+</blockquote>
+<h3 id="2-4-用户具体功能实现"><a href="#2-4-用户具体功能实现" class="headerlink" title="2.4 用户具体功能实现"></a>2.4 用户具体功能实现</h3><h4 id="2-4-1-实名认证"><a href="#2-4-1-实名认证" class="headerlink" title="2.4.1 实名认证"></a>2.4.1 实名认证</h4>
+
+
+
+
+
+<h4 id="2-4-2-挂号订单"><a href="#2-4-2-挂号订单" class="headerlink" title="2.4.2 挂号订单"></a>2.4.2 挂号订单</h4>
+
+<blockquote>
+<p>用户可以点击挂号订单查看当前账号下的订单以及订单详情，并可以通过订单详情对订单进行取消预约等操作</p>
+</blockquote>
+
+
+<h4 id="2-4-3-就诊人管理"><a href="#2-4-3-就诊人管理" class="headerlink" title="2.4.3 就诊人管理"></a>2.4.3 就诊人管理</h4>
+
+<blockquote>
+<p>在该功能中可以<strong>对就诊人的详细信息进行查看，删除和修改</strong>，包括<strong>添加就诊人</strong>等操作（对就诊人进行CRUD）</p>
+</blockquote>
+
+
+
+
+<h3 id="2-5-预约挂号功能"><a href="#2-5-预约挂号功能" class="headerlink" title="2.5 预约挂号功能"></a>2.5 预约挂号功能</h3>
+
+<blockquote>
+<p>用户点击具体科室后 对医院的排班进行显示，并且显示当天的号源数量，点击号源数量后，可以进行预约挂号操作，并进行确认</p>
+</blockquote>
+
+
+<blockquote>
+<p>用户进行预约挂号确认操作之后可以进行取消预约和支付两个选项</p>
+</blockquote>
+
+
+<blockquote>
+<p>取消预约按钮，对当前预约挂号订单进行取消，选择支付按钮弹出微信支付，支付成功后显示已支付页面</p>
+</blockquote>
+
+
+
+
+
+
+<h3 id="2-6-就医提醒"><a href="#2-6-就医提醒" class="headerlink" title="2.6 就医提醒"></a>2.6 就医提醒</h3><blockquote>
+<p>使用阿里云短信并通过rabbitmq进行就医提醒功能</p>
+</blockquote>
+<h2 id="3-项目技术点总结"><a href="#3-项目技术点总结" class="headerlink" title="3. 项目技术点总结"></a>3. 项目技术点总结</h2><h3 id="1、SpringBoot（后端）"><a href="#1、SpringBoot（后端）" class="headerlink" title="1、SpringBoot（后端）"></a>1、SpringBoot（后端）</h3><blockquote>
+<p>使用SpringBoot搭建项目环境</p>
+</blockquote>
+<h3 id="2、SpringCloud"><a href="#2、SpringCloud" class="headerlink" title="2、SpringCloud"></a>2、SpringCloud</h3><ul>
+<li>Nacos注册中心</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646103663870.png" class="" width="1646103663870">
+
+<p>进行服务的注册与发现（写的所有模块都会去nacos注册中心进行注册）</p>
+</blockquote>
+<ul>
+<li>Feign</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646104469826.png" class="" width="1646104469826">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646104632476.png" class="" width="1646104632476">
+</blockquote>
+<ul>
+<li>GateWay</li>
+</ul>
+<blockquote>
+<p>为本项目微服务提供简单、有效和统一的API路由管理方式，解决跨域问题，全局过滤，以及设置响应字符集编码等问题</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105012367.png" class="" width="1646105012367">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105241725.png" class="" width="1646105241725">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105537778.png" class="" width="1646105537778">
+</blockquote>
+<h3 id="3、Redis"><a href="#3、Redis" class="headerlink" title="3、Redis"></a>3、Redis</h3><ul>
+<li>使用Spring Cache + Redis缓存数据</li>
+</ul>
+<blockquote>
+<p>Spring Cache 是一个非常优秀的缓存组件。自Spring 3.1起，提供了类似于@Transactional注解事务的注解Cache支持，且提供了Cache抽象，方便切换各种底层Cache（如：redis）</p>
+<p>使用Spring Cache的好处：</p>
+<p>​    1，提供基本的Cache抽象，方便切换各种底层Cache；</p>
+<p>​    2，通过注解Cache可以实现类似于事务一样，缓存逻辑透明的应用到我们的业务代码上，且只需要更少的代码就可以完成；</p>
+<p>​    3，提供事务回滚时也自动回滚缓存；</p>
+<p>​    4，支持比较复杂的缓存逻辑；</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646106686705.png" class="" width="1646106686705">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646106872356.png" class="" width="1646106872356">
+
+<p><strong>CachePut</strong>:使用该注解标志的方法，每次都会执行，并将结果存入指定的缓存中。其他方法可以直接从响应的缓存中读取缓存数据，而不需要再去查询数据库。一般用在新增方法上。</p>
+</blockquote>
+<ul>
+<li>验证码有效时间、支付二维码有效时间</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107123311.png" class="" width="1646107123311">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107278207.png" class="" width="1646107278207">
+</blockquote>
+<h3 id="4、MongoDB"><a href="#4、MongoDB" class="headerlink" title="4、MongoDB"></a>4、MongoDB</h3><ul>
+<li>使用MongoDB存储 医院相关数据</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107437868.png" class="" width="1646107437868">
+
+<ul>
+<li>MongoDB：</li>
+</ul>
+<p>spring-data-mongodb提供了<strong>MongoTemplate</strong>与<strong>MongoRepository</strong>两种方式访问mongodb，<strong>MongoRepository操作简单（</strong>Spring Data提供了对mongodb数据访问的支持，我们只需要继承MongoRepository类，按照Spring Data规范就可以了<strong>）</strong>，<strong>MongoTemplate操作灵活</strong>（可以用来进行一些聚合，统计，分组等复杂操作），我们在项目中可以灵活适用这两种方式操作mongodb，MongoRepository的缺点是不够灵活，MongoTemplate正好可以弥补不足。</p>
+<ul>
+<li><p><strong>什么是MongoDB？（NoSql数据库）</strong></p>
+<p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。</p>
+<p>MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。</p>
+</li>
+<li><p><strong>为什么要使用MongoDB？</strong></p>
+<p>更像我们的关系型数据库，并且相较于Redis能实现一些更加复杂的查询操作</p>
+<p>1、MongoDB 是一个面向文档存储的数据库，操作起来比较简单和容易。</p>
+<p>2、你可以在MongoDB记录中设置任何属性的索引 (如：FirstName=”Sameer”,Address=”8 Gandhi Road”)来实现更快的排序。</p>
+<p>3、你可以通过本地或者网络创建数据镜像，这使得MongoDB有更强的扩展性。</p>
+<p>4、如果负载的增加（需要更多的存储空间和更强的处理能力） ，它可以分布在计算机网络中的其他节点上这就是所谓的分片。</p>
+<p>5、Mongo支持丰富的查询表达式。查询指令使用JSON形式的标记，可轻易查询文档中内嵌的对象及数组。</p>
+<p>6、MongoDb 使用update()命令可以实现替换完成的文档（数据）或者一些指定的数据字段 。</p>
+<p>7、Mongodb中的Map/reduce主要是用来对数据进行批量处理和聚合操作。</p>
+<p>8、Map和Reduce。Map函数调用emit(key,value)遍历集合中所有的记录，将key与value传给Reduce函数进行处理。</p>
+<p>9、Map函数和Reduce函数是使用Javascript编写的，并可以通过db.runCommand或mapreduce命令来执行MapReduce操作。</p>
+<p>10、GridFS是MongoDB中的一个内置功能，可以用于存放大量小文件。</p>
+<p>11、MongoDB允许在服务端执行脚本，可以用Javascript编写某个函数，直接在服务端执行，也可以把函数的定义存储在服务端，下次直接调用即可。</p>
+<p>12、MongoDB支持各种编程语言:RUBY，PYTHON，JAVA，C++，PHP，C#等多种语言。</p>
+<p>13、MongoDB安装简单。</p>
+</li>
+<li><p><strong>为什么使用NoSQL ？</strong></p>
+<p>1、对数据库高并发读写。</p>
+<p>2、对海量数据的高效率存储和访问。</p>
+<p>3、对数据库的高可扩展性和高可用性。</p>
+<p>弱点：</p>
+<p>1、数据库事务一致性需求</p>
+<p>2、数据库的写实时性和读实时性需求</p>
+<p>3、对复杂的SQL查询，特别是多表关联查询的需求</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="5、EasyExcel"><a href="#5、EasyExcel" class="headerlink" title="5、EasyExcel"></a>5、EasyExcel</h3><blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646108916683.png" class="" width="1646108916683">
+
+<ul>
+<li>为什么使用Easy Excel？</li>
+</ul>
+<p>Java解析、生成Excel比较有名的框架有Apache poi、jxl。但他们都存在一个严重的问题就是非常的耗内存，poi有一套SAX模式的API可以一定程度的解决一些内存溢出的问题，但POI还是有一些缺陷，比如07版Excel解压缩以及解压后存储都是在内存中完成的，内存消耗依然很大。easyexcel重写了poi对07版Excel的解析，能够原本一个3M的excel用POI sax依然需要100M左右内存降低到几M，并且再大的excel不会出现内存溢出，03版依赖POI的sax模式。在上层做了模型转换的封装，让使用者更加简单方便。</p>
+<p>EasyExcel是一个基于Java的简单、省内存的读写Excel的开源项目。在尽可能节约内存的情况下支持读写百M的Excel</p>
+</blockquote>
+<h3 id="6、MyBatisPlus"><a href="#6、MyBatisPlus" class="headerlink" title="6、MyBatisPlus"></a>6、MyBatisPlus</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://baomidou.com/pages/24112f/">简介 | MyBatis-Plus (baomidou.com)</a></p>
+<p>官网简介已经对MyBatis-Plus做了最好的解释</p>
+</blockquote>
+<h3 id="7、RabbitMQ"><a href="#7、RabbitMQ" class="headerlink" title="7、RabbitMQ"></a>7、RabbitMQ</h3><blockquote>
+<p>订单相关操作，发送mq消息</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114388134.png" class="" width="1646114388134">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114489646.png" class="" width="1646114489646">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114586210.png" class="" width="1646114586210">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114658635.png" class="" width="1646114658635">
+</blockquote>
+<h3 id="8、Docker"><a href="#8、Docker" class="headerlink" title="8、Docker"></a>8、Docker</h3><blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114137055.png" class="" width="1646114137055">
+</blockquote>
+<h3 id="9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务"><a href="#9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务" class="headerlink" title="9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务"></a>9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务</h3><ul>
+<li><p>ECS服务器：RabbitMQ，MongoDB，Redis都放在改服务器的docker容器中运行，该服务器使用基于Linux内核的CentOS 8操作系统</p>
+</li>
+<li><p>阿里云OSS：本项目中将用户认证的证件图片上传到阿里云OSS</p>
+<blockquote>
+<p>1、易用性：简单易用，便于管理，深度集成数据处理服务；</p>
+<p>2、高可靠：多重冗余备份，服务设计可用性不低于99.99%；</p>
+<p>3、强安全：多层次安全防护，支持跨区域复制、异地容灾机制；</p>
+<p>4、低成本：总体TCO更低，生命周期管理进一步降低成本。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 文件上传到阿里云oss</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> file</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">(MultipartFile file)</span> </span>&#123;</span><br><span class="line">       String endpoint = ConstantOssPropertiesUtils.EDNPOINT;</span><br><span class="line">       String accessKeyId = ConstantOssPropertiesUtils.ACCESS_KEY_ID;</span><br><span class="line">       String accessKeySecret = ConstantOssPropertiesUtils.SECRECT;</span><br><span class="line">       String bucketName = ConstantOssPropertiesUtils.BUCKET;</span><br><span class="line">  </span><br><span class="line">       <span class="comment">// 创建OSSClient实例。</span></span><br><span class="line">       OSS ossClient = <span class="keyword">new</span> OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//上传文件流</span></span><br><span class="line">           InputStream inputStream = file.getInputStream();</span><br><span class="line">           String fileName = file.getOriginalFilename();</span><br><span class="line">           <span class="comment">//生成随机唯一值，使用uuid，添加到文件名称里面</span></span><br><span class="line">           String uuid = UUID.randomUUID().toString().replaceAll(<span class="string">&quot;-&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">           fileName = uuid + fileName;</span><br><span class="line">           <span class="comment">//按照当前日期，创建文件夹，上传到创建的文件夹里面</span></span><br><span class="line">           String timeUrl = <span class="keyword">new</span> DateTime().toString(<span class="string">&quot;yyyy/MM/dd&quot;</span>);</span><br><span class="line">           fileName = timeUrl+<span class="string">&quot;/&quot;</span>+fileName;</span><br><span class="line">           <span class="comment">// 创建PutObject请求。</span></span><br><span class="line">           ossClient.putObject(bucketName, fileName, inputStream);</span><br><span class="line">  </span><br><span class="line">           <span class="comment">//返回上传之后的文件路径</span></span><br><span class="line">           String url = <span class="string">&quot;https://&quot;</span>+bucketName+<span class="string">&quot;.&quot;</span>+endpoint+<span class="string">&quot;/&quot;</span>+fileName;</span><br><span class="line">  </span><br><span class="line">           <span class="keyword">return</span> url;</span><br><span class="line">       &#125; <span class="keyword">catch</span> (OSSException oe) &#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;Caught an OSSException, which means your request made it to OSS, &quot;</span></span><br><span class="line">                   + <span class="string">&quot;but was rejected with an error response for some reason.&quot;</span>);</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Message:&quot;</span> + oe.getErrorMessage());</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Code:&quot;</span> + oe.getErrorCode());</span><br><span class="line">           System.out.println(<span class="string">&quot;Request ID:&quot;</span> + oe.getRequestId());</span><br><span class="line">           System.out.println(<span class="string">&quot;Host ID:&quot;</span> + oe.getHostId());</span><br><span class="line">       &#125; <span class="keyword">catch</span> (ClientException ce) &#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;Caught an ClientException, which means the client encountered &quot;</span></span><br><span class="line">                   + <span class="string">&quot;a serious internal problem while trying to communicate with OSS, &quot;</span></span><br><span class="line">                   + <span class="string">&quot;such as not being able to access the network.&quot;</span>);</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Message:&quot;</span> + ce.getMessage());</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (ossClient != <span class="keyword">null</span>) &#123;</span><br><span class="line">               ossClient.shutdown();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>阿里云短信服务：</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646116033590.png" class="" width="1646116033590">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646115797592.png" class="" width="1646115797592"></li>
+</ul>
+<h3 id="10、微信登录-支付"><a href="#10、微信登录-支付" class="headerlink" title="10、微信登录/支付"></a>10、微信登录/支付</h3><blockquote>
+<p>通过调用微信接口实现微信的登录和支付功能</p>
+<p>官网有具体的API实现文档：<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/product/wxcloudrun.html">第三方平台云服务 | 微信开放文档 (qq.com)</a></p>
+</blockquote>
+<h3 id="11、定时任务（-Scheduled注解）"><a href="#11、定时任务（-Scheduled注解）" class="headerlink" title="11、定时任务（@Scheduled注解）"></a>11、定时任务（@Scheduled注解）</h3><img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646116264348.png" class="" width="1646116264348">
+
+<h3 id="12、vue（前端）"><a href="#12、vue（前端）" class="headerlink" title="12、vue（前端）"></a>12、vue（前端）</h3><blockquote>
+<p>快速构建前端的工具</p>
+<p>是一套用于构建<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/6582461">用户界面</a>的渐进式<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/JavaScript/321142">JavaScript</a>框架。</p>
+<p>本项目采用的是Vue2.5.17</p>
+</blockquote>
+<h3 id="13、Element-UI"><a href="#13、Element-UI" class="headerlink" title="13、Element-UI"></a>13、Element-UI</h3><blockquote>
+<p>Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库</p>
+</blockquote>
+<h3 id="14、Nuxt"><a href="#14、Nuxt" class="headerlink" title="14、Nuxt"></a>14、Nuxt</h3><blockquote>
+<p>Nuxt.js 是一个基于 Vue.js 的轻量级应用框架,可用来创建服务端渲染 (SSR) 应用,也可充当静态站点引擎生成静态站点应用,具有优雅的代码结构分层和热加载等特性。</p>
+<p>服务端渲染又称SSR (Server Side Render)是在服务端完成页面的内容，而不是在客户端通过AJAX获取数据。</p>
+<p>服务器端渲染(SSR)的优势主要在于：更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。</p>
+<p>如果你的应用程序初始展示 loading 菊花图，然后通过 Ajax 获取内容，抓取工具并不会等待异步完成后再进行页面内容的抓取。也就是说，如果 SEO 对你的站点至关重要，而你的页面又是异步获取内容，则你可能需要服务器端渲染(SSR)解决此问题。</p>
+<p>另外，使用服务器端渲染，我们可以获得更快的内容到达时间(time-to-content)，无需等待所有的 JavaScript 都完成下载并执行，产生更好的用户体验，对于那些内容到达时间(time-to-content)与转化率直接相关的应用程序而言，服务器端渲染(SSR)至关重要。</p>
+</blockquote>
+<h3 id="15、Node-js"><a href="#15、Node-js" class="headerlink" title="15、Node.js"></a>15、Node.js</h3><blockquote>
+<p>脱离浏览器环境也可以运行JavaScript，只要有JavaScript引擎就可以。</p>
+<p>Node.js是一个基于Chrome V8引擎的JavaScript运行环境：即Node.js内置了Chrome的V8 引擎，可以在Node.js环境中直接运行JavaScript程序。</p>
+<p>在Node.js中写JavaScript和在Chrome浏览器中写JavaScript基本没有什么不一样。哪里不一样呢？</p>
+<p>Node.js没有浏览器API，即document，window的等。加了许多Node.js 专属API，例如文件系统，进程http</p>
+<p>功能。</p>
+<p>通常他会被用来作一个BFF层，即 Backend For Frontend（服务于前端的后端），通俗的说是一个专门用于为前端业务提供数据的后端程序</p>
+<ul>
+<li><p>什么是BFF层？</p>
+<p>一个前端页面向 Service A、Service B 以及 Service C发送请求，不同的微服务返回的值用于渲染页面中不同的组件。此时，每次访问该页面都需要发送 3 个请求。我们需要一个服务来聚合Service A、Service B 以及 Service C响应的数据，这个服务层叫做BFF。</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/clip_image002.gif" class="" title="IMG_256">
+
+<p>手机、平板端、PC机等用户终端都需要向每个Service，例如Service A发送请求。对于同一个功能，不同的终端需要的数据格式和内容会有不同。此时 Service A 的一个接口，不能同时满足三个客户端的不同需求。我们可以在Service A中开发三个接口，也可以增加一个数据裁剪服务，将数据按照不同终端的不同要求进行裁剪，这个服务层叫做BFF。</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/clip_image004.gif" class="" title="IMG_256">
+
+<p>BFF层的作用是让前端有能力自由组装后台数据，减少大量的业务沟通成本，加快业务的迭代速度。</p>
+<p>无论是数据聚合还是数据剪裁，这类程序的特点是不需要太强大的服务器运算能力，但是对程序的灵活性有较高的要求，这两个特点都正好和Node.js的优势相吻合。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="16、npm"><a href="#16、npm" class="headerlink" title="16、npm"></a>16、npm</h3><blockquote>
+<p>npm是 JavaScript 世界的<strong>包管理工具</strong>,并且是 Node.js 平台的默认包管理工具。通过 <em>npm</em> 可以安装、共享、分发代码,管理项目依赖关系，相当于前端的Maven</p>
+</blockquote>
+<h3 id="17、ECharts"><a href="#17、ECharts" class="headerlink" title="17、ECharts"></a>17、ECharts</h3><blockquote>
+<p>一个基于 JavaScript 的开源可视化图表库</p>
+<p><a target="_blank" rel="noopener" href="https://echarts.apache.org/zh/index.html">官方地址：Apache ECharts</a></p>
+<p>本项目中用来实现订单数据的图表显示</p>
+</blockquote>
+<h3 id="18、axios"><a href="#18、axios" class="headerlink" title="18、axios"></a>18、axios</h3><blockquote>
+<p>axios是独立于vue的一个项目，可以用于浏览器和node.js中发送ajax请求</p>
+</blockquote>
+<h2 id="4-前后端代码地址"><a href="#4-前后端代码地址" class="headerlink" title="4. 前后端代码地址"></a>4. 前后端代码地址</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitee代码仓库: https:<span class="comment">//gitee.com/CoderVan99/yygh_parent</span></span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">CoderVan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://codervan99.github.io/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">https://codervan99.github.io/2022/03/01/尚硅谷-尚医通项目总结/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://codervan99.github.io" target="_blank">ImVan</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">项目总结</a><a class="post-meta__tags" href="/tags/Spring-Cloud/">Spring Cloud</a><a class="post-meta__tags" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a><a class="post-meta__tags" href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/">前后端分离</a></div><div class="post_share"><div class="social-share" data-image="https://img2.baidu.com/it/u=2194323701,705415303&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=798&amp;h=500" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/./img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/./img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/./img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/./img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/29/%E7%A8%80%E7%96%8F%E6%95%B0%E7%BB%84%E5%92%8C%E9%98%9F%E5%88%97/"><img class="next-cover" src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg-blog.csdnimg.cn%2F20210304110743209.png%3Fx-oss-process%3Dimage%2Fwatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dhcmRvX2w%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70&amp;refer=http%3A%2F%2Fimg-blog.csdnimg.cn&amp;app=2002&amp;size=f9999,10000&amp;q=a80&amp;n=0&amp;g=0n&amp;fmt=jpeg?sec=1646049059&amp;t=0aab28b6ef62ba4a73c4bb3fd6fc3e37" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">稀疏数组和队列</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">1. 项目后台系统功能总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%8C%BB%E9%99%A2%E8%AE%BE%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 医院设置管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-%E5%8C%BB%E9%99%A2%E8%AE%BE%E7%BD%AE%E7%9A%84%E5%88%97%E8%A1%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1 医院设置的列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-%E5%8C%BB%E9%99%A2%E8%AE%BE%E7%BD%AE%E7%9A%84%E6%B7%BB%E5%8A%A0"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2 医院设置的添加</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-3-%E5%8C%BB%E9%99%A2%E5%88%97%E8%A1%A8%E7%9A%84%E5%B1%95%E7%A4%BA"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.1.3 医院列表的展示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B8"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 数据字典</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 用户管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-%E7%94%A8%E6%88%B7%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.3.1 用户列表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-%E8%AE%A4%E8%AF%81%E5%AE%A1%E6%89%B9%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.3.2 认证审批列表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 订单管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E7%BB%9F%E8%AE%A1%E7%AE%A1%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 统计管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%A1%B9%E7%9B%AE%E5%89%8D%E5%8F%B0%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">2.  项目前台系统功能总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E9%A6%96%E9%A1%B5%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 首页数据显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8C%BB%E9%99%A2%E8%AF%A6%E6%83%85%E6%98%BE%E7%A4%BA"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 医院详情显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 用户登录功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%89%8B%E6%9C%BA%E9%AA%8C%E8%AF%81%E7%A0%81%E7%99%BB%E5%BD%95"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 手机验证码登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%BE%AE%E4%BF%A1%E7%99%BB%E5%BD%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 微信登录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E7%94%A8%E6%88%B7%E5%85%B7%E4%BD%93%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 用户具体功能实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-%E5%AE%9E%E5%90%8D%E8%AE%A4%E8%AF%81"><span class="toc-number">2.4.1.</span> <span class="toc-text">2.4.1 实名认证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-%E6%8C%82%E5%8F%B7%E8%AE%A2%E5%8D%95"><span class="toc-number">2.4.2.</span> <span class="toc-text">2.4.2 挂号订单</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-3-%E5%B0%B1%E8%AF%8A%E4%BA%BA%E7%AE%A1%E7%90%86"><span class="toc-number">2.4.3.</span> <span class="toc-text">2.4.3 就诊人管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E9%A2%84%E7%BA%A6%E6%8C%82%E5%8F%B7%E5%8A%9F%E8%83%BD"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 预约挂号功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E5%B0%B1%E5%8C%BB%E6%8F%90%E9%86%92"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 就医提醒</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%A1%B9%E7%9B%AE%E6%8A%80%E6%9C%AF%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">3. 项目技术点总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81SpringBoot%EF%BC%88%E5%90%8E%E7%AB%AF%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">1、SpringBoot（后端）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81SpringCloud"><span class="toc-number">3.2.</span> <span class="toc-text">2、SpringCloud</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81Redis"><span class="toc-number">3.3.</span> <span class="toc-text">3、Redis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81MongoDB"><span class="toc-number">3.4.</span> <span class="toc-text">4、MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81EasyExcel"><span class="toc-number">3.5.</span> <span class="toc-text">5、EasyExcel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%E3%80%81MyBatisPlus"><span class="toc-number">3.6.</span> <span class="toc-text">6、MyBatisPlus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81RabbitMQ"><span class="toc-number">3.7.</span> <span class="toc-text">7、RabbitMQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%E3%80%81Docker"><span class="toc-number">3.8.</span> <span class="toc-text">8、Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%E3%80%81%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%EF%BC%9AECS%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%81%E9%98%BF%E9%87%8C%E4%BA%91OSS%E3%80%81%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.9.</span> <span class="toc-text">9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E3%80%81%E5%BE%AE%E4%BF%A1%E7%99%BB%E5%BD%95-%E6%94%AF%E4%BB%98"><span class="toc-number">3.10.</span> <span class="toc-text">10、微信登录&#x2F;支付</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11%E3%80%81%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%EF%BC%88-Scheduled%E6%B3%A8%E8%A7%A3%EF%BC%89"><span class="toc-number">3.11.</span> <span class="toc-text">11、定时任务（@Scheduled注解）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12%E3%80%81vue%EF%BC%88%E5%89%8D%E7%AB%AF%EF%BC%89"><span class="toc-number">3.12.</span> <span class="toc-text">12、vue（前端）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E3%80%81Element-UI"><span class="toc-number">3.13.</span> <span class="toc-text">13、Element-UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14%E3%80%81Nuxt"><span class="toc-number">3.14.</span> <span class="toc-text">14、Nuxt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15%E3%80%81Node-js"><span class="toc-number">3.15.</span> <span class="toc-text">15、Node.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16%E3%80%81npm"><span class="toc-number">3.16.</span> <span class="toc-text">16、npm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17%E3%80%81ECharts"><span class="toc-number">3.17.</span> <span class="toc-text">17、ECharts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18%E3%80%81axios"><span class="toc-number">3.18.</span> <span class="toc-text">18、axios</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80"><span class="toc-number">4.</span> <span class="toc-text">4. 前后端代码地址</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://img2.baidu.com/it/u=2194323701,705415303&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=798&amp;h=500')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By CoderVan</div><div class="footer_custom_text">Hi, 欢迎来到我的博客!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const $countDom = document.getElementById('twikoo-count')
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'hello-cloudbase-4gjgd7n6ee8a7932',
+      region: ''
+    }, null))
+  }
+
+  const getCount = () => {
+    twikoo.getCommentsCount({
+      envId: 'hello-cloudbase-4gjgd7n6ee8a7932',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      $countDom.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const loadTwikoo = (bool = false) => {
+    if (typeof twikoo === 'object') {
+      init()
+      bool && $countDom && setTimeout(getCount,0)
+    } else {
+      getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(()=> {
+        init()
+        bool && $countDom && setTimeout(getCount,0)
+      })
+    }
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo(true)
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="坚持,努力,热情,积极,向上,自信" data-fontsize="15px" data-random="true" async="async"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

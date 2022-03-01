@@ -648,6 +648,89 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM基本</title>
+    <url>/2021/09/06/JVM/</url>
+    <content><![CDATA[<h1 id="JVM简单复习"><a href="#JVM简单复习" class="headerlink" title="JVM简单复习"></a>JVM简单复习</h1><h2 id="1、了解JVM的基本体系结构"><a href="#1、了解JVM的基本体系结构" class="headerlink" title="1、了解JVM的基本体系结构"></a>1、了解JVM的基本体系结构</h2><p><img src="/img/study/JVM/1638436538746.png" alt="1638436538746"></p>
+<h2 id="2、类加载器和双亲委派机制"><a href="#2、类加载器和双亲委派机制" class="headerlink" title="2、类加载器和双亲委派机制"></a>2、类加载器和双亲委派机制</h2><p><img src="/img/study/JVM/1638436571128.png" alt="1638436571128"></p>
+<h3 id="类加载器（Class-loader）"><a href="#类加载器（Class-loader）" class="headerlink" title="类加载器（Class loader）"></a>类加载器（Class loader）</h3><p>1、让我们新建一个Person类，通过实例化new关键字获取到一个person对象</p>
+<p>2、通过person.getClass()方法获取到Class类，再通过getClassLoader拿到类加载器</p>
+<p>3、可以发现获取到类加载器我们还可以通过.getParent()方法获取到父类加载器</p>
+<p>​    <img src="/img/study/JVM/1638437023635.png" alt="1638437023635"></p>
+<p>4、通过父类再拿到父类就报null了，这里是因为没有了吗？是因为往上走的加载器不是用java语言写的，当然拿不到啦，Java底层是用C、C++写的，所以java最初也叫C++–，就是想去掉指针和内存分配这种繁琐的工作，内存分配交给JVM去做！</p>
+<p>5、这里我们可以从图中的图片看到我们大致classLoader有AppClassLoader、ExtClassLoader(ext目录)、RootLoader(rt.jar)。</p>
+<h3 id="双亲委派机制：安全"><a href="#双亲委派机制：安全" class="headerlink" title="双亲委派机制：安全"></a>双亲委派机制：安全</h3><p>1、当我们创建一个自己手写的String类时，运行会报错（最新idea写出来就不会有运行按钮）</p>
+<p>2、为什么会这样了，这就不得不提双亲委派机制。</p>
+<p>3、类加载器收到类加载的请求，会将这个请求去向上委托父加载器（ExtClassLoader）去完成，一直向上委托并且直到启动类（root）加载器，启动类加载器检查是否能够加载这个类，能加载就结束，使用当前的加载器，否则，抛出异常，通知子加载器进行加载</p>
+<p>4、重复步骤3</p>
+<p>​                </p>
+<h2 id="3、Native-方法区"><a href="#3、Native-方法区" class="headerlink" title="3、Native 方法区"></a>3、Native 方法区</h2><h3 id="native"><a href="#native" class="headerlink" title="native"></a>native</h3><p>native：凡是带了native关键字的，说明java的范围达不到，需要去调用底层c语言的库！</p>
+<p>具体的调用过程就是进入本地方法栈，然后本地方法栈会去调用JNI（本地方法接口），JNI再去调用本地方法库，为什么会有JNI这个东西就是因为为了去拓展java的使用，去融合不同的编程语言为java所用</p>
+<p>为了配合native java设计时专门在内存区域中开辟了一块标记区域，就是 native method stack ，即本地方法栈去登记native方法，在最终执行的时候，加载本地方法库中的方法通过JNI！</p>
+<h3 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h3><p>​    方法区是被所有线程共享，所有字段和方法字节码，以及一些特殊方法，如构造函数，接口代码也在此定义，简单说，所有定义的方法的信息都保存在该区域，此区域属于共享区间；</p>
+<p>​    <strong>静态变量（static）常量（final）类信息（class，构造方法，接口定义），运行时的常量池存在方法区中，但是实例变量在堆内存中，和方法区无关</strong></p>
+<h2 id="4、堆"><a href="#4、堆" class="headerlink" title="4、堆"></a>4、堆</h2><p><img src="/img/study/JVM/1638606438220.png" alt="1638606438220"></p>
+<p>如图所示，堆里面分为三个空间，<em><strong>新生区：伊甸园、幸存区1、幸存区2，老年区、元空间（永久区）</strong></em></p>
+<p>需要注意的是，元空间逻辑上是存在的，但是物理上是不存在的，我们可以通过查看初始化内存和最大内存，并且对jvm打印细节看到，所以元空间也有人叫为<em><strong>非堆</strong></em></p>
+<p>直接上代码：</p>
+<p>-Xms 初始化内存：1/64</p>
+<p>-Xmx 最大总内存：Pc最大内存的1/4</p>
+<p>-XX:+PrintGCDetails //打印GC垃圾回收信息</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError  //oom DUMP</p>
+<p><img src="/img/study/JVM/1638607692772.png" alt="1638607692772"></p>
+<p>使用专业工具进行分析：</p>
+<p>​    MAT，Jprofiler：</p>
+<ul>
+<li>分析Dump内存文件，快速定位内存泄露；</li>
+<li>获得堆中的数据</li>
+<li>获得大的对象</li>
+</ul>
+<p><img src="/img/study/JVM/1638610327534.png" alt="1638610327534"></p>
+<h2 id="5、GC（垃圾回收机制）"><a href="#5、GC（垃圾回收机制）" class="headerlink" title="5、GC（垃圾回收机制）"></a>5、GC（垃圾回收机制）</h2><pre><code>### 引用计数法
+</code></pre>
+<p><img src="/img/study/JVM/1638668563679.png" alt="1638668563679"></p>
+<p>这种方法本身并不高效，jvm中一般不会采用这种GC算法</p>
+<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/img/study/JVM/1638670329411.png" alt="1638670329411"></p>
+<p>从这张图片中我们可以看到，复制算法指的是发生在Eden和幸存区的一种GC算法，每一次进行GC时，Eden和from区都会被清空，from区会复制一份放到空的to区，然后from会被清空，to变成from，from变成to，一般情况下，在就<em><strong>经历15次GC后</strong></em>，活下来的就会进入养老区，当然我们可以通过jvm参数手动去设置这个值。</p>
+<p>好处：没有内存碎片</p>
+<p>坏处：1、浪费了内存空间：多了一般的空间永远是空的to，假设对象100%存活的话，这种算法的收益率就会很低，所以这种算法的最佳使用场景就是：新生区对象存活度比较低的时候</p>
+<h3 id="标记清除压缩算法"><a href="#标记清除压缩算法" class="headerlink" title="标记清除压缩算法"></a>标记清除压缩算法</h3><pre><code>#### 标记清除
+</code></pre>
+<p><img src="/img/study/JVM/1638671827945.png" alt="1638671827945"></p>
+<p>好处：不需要开辟额外的空间，上面的to区不再需要</p>
+<p>坏处：有内存碎片的产生，而且需要进行多次扫描，时间和资源成本增加了</p>
+<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p><img src="/img/study/JVM/1638671916966.png" alt="1638671916966"></p>
+<p>进行对象的移动，防止内存碎片的产生，但是时间和资源成本又增加了</p>
+<h3 id="标记清除压缩"><a href="#标记清除压缩" class="headerlink" title="标记清除压缩"></a>标记清除压缩</h3><p><img src="/img/study/JVM/1638672102617.png" alt="1638672102617"></p>
+<h3 id="GC（分代收集算法）算法总结"><a href="#GC（分代收集算法）算法总结" class="headerlink" title="GC（分代收集算法）算法总结"></a>GC（分代收集算法）算法总结</h3><p>内存效率：复制算法&gt;标记清除算法&gt;标记压缩算法（时间复杂度）</p>
+<p>内存整齐度：复制算法=标记压缩算法&gt;标记清除算法</p>
+<p>内存利用率：标记压缩算法=标记清除算法&gt;复制算法</p>
+<p><em><strong>没有最优的算法，只有最适合的算法！</strong></em></p>
+<p><strong>新生区</strong></p>
+<ul>
+<li><p>存活率低</p>
+</li>
+<li><p>复制算法</p>
+</li>
+</ul>
+<p><strong>老年区</strong></p>
+<ul>
+<li>区域大：存活率高</li>
+<li>标记清除（当内存碎片不多的时候）+标记压缩（内存碎片多就进行一次）混合使用</li>
+</ul>
+<p>6、JMM（Java Memory Model）</p>
+<p><img src="/img/study/JVM/1638675349616.png" alt="1638675349616"></p>
+<p><img src="/img/study/JVM/1638675388923.png" alt="1638675388923"></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+        <tag>面试</tag>
+        <tag>GC</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Springboot整合Shiro</title>
     <url>/2021/08/12/Springboot%E6%95%B4%E5%90%88Shiro/</url>
     <content><![CDATA[<h2 id="1、Shiro简介"><a href="#1、Shiro简介" class="headerlink" title="1、Shiro简介"></a>1、Shiro简介</h2><h3 id="1-1-什么是Shiro？"><a href="#1-1-什么是Shiro？" class="headerlink" title="1.1    什么是Shiro？"></a>1.1    什么是Shiro？</h3><ul>
@@ -889,86 +972,335 @@ public User queryUserByName(String name) &#123;
       </tags>
   </entry>
   <entry>
-    <title>JVM基本</title>
-    <url>/2021/09/06/JVM/</url>
-    <content><![CDATA[<h1 id="JVM简单复习"><a href="#JVM简单复习" class="headerlink" title="JVM简单复习"></a>JVM简单复习</h1><h2 id="1、了解JVM的基本体系结构"><a href="#1、了解JVM的基本体系结构" class="headerlink" title="1、了解JVM的基本体系结构"></a>1、了解JVM的基本体系结构</h2><p><img src="/img/study/JVM/1638436538746.png" alt="1638436538746"></p>
-<h2 id="2、类加载器和双亲委派机制"><a href="#2、类加载器和双亲委派机制" class="headerlink" title="2、类加载器和双亲委派机制"></a>2、类加载器和双亲委派机制</h2><p><img src="/img/study/JVM/1638436571128.png" alt="1638436571128"></p>
-<h3 id="类加载器（Class-loader）"><a href="#类加载器（Class-loader）" class="headerlink" title="类加载器（Class loader）"></a>类加载器（Class loader）</h3><p>1、让我们新建一个Person类，通过实例化new关键字获取到一个person对象</p>
-<p>2、通过person.getClass()方法获取到Class类，再通过getClassLoader拿到类加载器</p>
-<p>3、可以发现获取到类加载器我们还可以通过.getParent()方法获取到父类加载器</p>
-<p>​    <img src="/img/study/JVM/1638437023635.png" alt="1638437023635"></p>
-<p>4、通过父类再拿到父类就报null了，这里是因为没有了吗？是因为往上走的加载器不是用java语言写的，当然拿不到啦，Java底层是用C、C++写的，所以java最初也叫C++–，就是想去掉指针和内存分配这种繁琐的工作，内存分配交给JVM去做！</p>
-<p>5、这里我们可以从图中的图片看到我们大致classLoader有AppClassLoader、ExtClassLoader(ext目录)、RootLoader(rt.jar)。</p>
-<h3 id="双亲委派机制：安全"><a href="#双亲委派机制：安全" class="headerlink" title="双亲委派机制：安全"></a>双亲委派机制：安全</h3><p>1、当我们创建一个自己手写的String类时，运行会报错（最新idea写出来就不会有运行按钮）</p>
-<p>2、为什么会这样了，这就不得不提双亲委派机制。</p>
-<p>3、类加载器收到类加载的请求，会将这个请求去向上委托父加载器（ExtClassLoader）去完成，一直向上委托并且直到启动类（root）加载器，启动类加载器检查是否能够加载这个类，能加载就结束，使用当前的加载器，否则，抛出异常，通知子加载器进行加载</p>
-<p>4、重复步骤3</p>
-<p>​                </p>
-<h2 id="3、Native-方法区"><a href="#3、Native-方法区" class="headerlink" title="3、Native 方法区"></a>3、Native 方法区</h2><h3 id="native"><a href="#native" class="headerlink" title="native"></a>native</h3><p>native：凡是带了native关键字的，说明java的范围达不到，需要去调用底层c语言的库！</p>
-<p>具体的调用过程就是进入本地方法栈，然后本地方法栈会去调用JNI（本地方法接口），JNI再去调用本地方法库，为什么会有JNI这个东西就是因为为了去拓展java的使用，去融合不同的编程语言为java所用</p>
-<p>为了配合native java设计时专门在内存区域中开辟了一块标记区域，就是 native method stack ，即本地方法栈去登记native方法，在最终执行的时候，加载本地方法库中的方法通过JNI！</p>
-<h3 id="方法区（Method-Area）"><a href="#方法区（Method-Area）" class="headerlink" title="方法区（Method Area）"></a>方法区（Method Area）</h3><p>​    方法区是被所有线程共享，所有字段和方法字节码，以及一些特殊方法，如构造函数，接口代码也在此定义，简单说，所有定义的方法的信息都保存在该区域，此区域属于共享区间；</p>
-<p>​    <strong>静态变量（static）常量（final）类信息（class，构造方法，接口定义），运行时的常量池存在方法区中，但是实例变量在堆内存中，和方法区无关</strong></p>
-<h2 id="4、堆"><a href="#4、堆" class="headerlink" title="4、堆"></a>4、堆</h2><p><img src="/img/study/JVM/1638606438220.png" alt="1638606438220"></p>
-<p>如图所示，堆里面分为三个空间，<em><strong>新生区：伊甸园、幸存区1、幸存区2，老年区、元空间（永久区）</strong></em></p>
-<p>需要注意的是，元空间逻辑上是存在的，但是物理上是不存在的，我们可以通过查看初始化内存和最大内存，并且对jvm打印细节看到，所以元空间也有人叫为<em><strong>非堆</strong></em></p>
-<p>直接上代码：</p>
-<p>-Xms 初始化内存：1/64</p>
-<p>-Xmx 最大总内存：Pc最大内存的1/4</p>
-<p>-XX:+PrintGCDetails //打印GC垃圾回收信息</p>
-<p>-XX:+HeapDumpOnOutOfMemoryError  //oom DUMP</p>
-<p><img src="/img/study/JVM/1638607692772.png" alt="1638607692772"></p>
-<p>使用专业工具进行分析：</p>
-<p>​    MAT，Jprofiler：</p>
-<ul>
-<li>分析Dump内存文件，快速定位内存泄露；</li>
-<li>获得堆中的数据</li>
-<li>获得大的对象</li>
+    <title>尚硅谷-尚医通项目总结</title>
+    <url>/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="1-项目后台系统功能总结"><a href="#1-项目后台系统功能总结" class="headerlink" title="1. 项目后台系统功能总结"></a>1. 项目后台系统功能总结</h2><h3 id="1-1-医院设置管理"><a href="#1-1-医院设置管理" class="headerlink" title="1.1 医院设置管理"></a>1.1 医院设置管理</h3><h4 id="1-1-1-医院设置的列表"><a href="#1-1-1-医院设置的列表" class="headerlink" title="1.1.1 医院设置的列表"></a>1.1.1 医院设置的列表</h4>
+
+<blockquote>
+<p>显示所有已经添加到数据库的所有医院的设置，包括对医院删除，锁定，修改。还可以对具体医院进行搜索</p>
+</blockquote>
+<h4 id="1-1-2-医院设置的添加"><a href="#1-1-2-医院设置的添加" class="headerlink" title="1.1.2 医院设置的添加"></a>1.1.2 医院设置的添加</h4>
+
+<blockquote>
+<p>添加一所医院，api基础路径配置的是该医院管理系统的地址以及端口号（不要乱配置，后面因为这个地方端口号不正确导致与医院平台对接会出现拒绝访问这个坑！）</p>
+</blockquote>
+<h4 id="1-1-3-医院列表的展示"><a href="#1-1-3-医院列表的展示" class="headerlink" title="1.1.3 医院列表的展示"></a>1.1.3 医院列表的展示</h4>
+
+<blockquote>
+<p>提供对所有已添加到统一挂号平台的医院的一些信息的展示，<strong>查看具体信息</strong>，<strong>查看该医院排班</strong>，<strong>对该医院进行下线处理</strong>等操作</p>
+</blockquote>
+
+
+
+
+
+
+<h3 id="1-2-数据字典"><a href="#1-2-数据字典" class="headerlink" title="1.2 数据字典"></a>1.2 数据字典</h3>
+
+<blockquote>
+<p>用来存储一些<strong>不需要经常改动但需要经常使用</strong>的固定值</p>
+<p>可以对数据字典进行导入和导出：使用excel文件</p>
+</blockquote>
+<h3 id="1-3-用户管理"><a href="#1-3-用户管理" class="headerlink" title="1.3 用户管理"></a>1.3 用户管理</h3><h4 id="1-3-1-用户列表"><a href="#1-3-1-用户列表" class="headerlink" title="1.3.1 用户列表"></a>1.3.1 用户列表</h4>
+
+<blockquote>
+<p>默认显示第一页的所有用户，可以对用户进行搜索、查看具体信息、进行锁定等</p>
+</blockquote>
+
+
+
+
+<h4 id="1-3-2-认证审批列表"><a href="#1-3-2-认证审批列表" class="headerlink" title="1.3.2 认证审批列表"></a>1.3.2 认证审批列表</h4>
+
+<blockquote>
+<p>可以对<strong>用户进行认证审批</strong>：包括<strong>通过和不通过</strong>两个功能，未认证的用户不能进行挂号</p>
+</blockquote>
+<h3 id="1-4-订单管理"><a href="#1-4-订单管理" class="headerlink" title="1.4 订单管理"></a>1.4 订单管理</h3>
+
+<blockquote>
+<p>查看所有的订单信息包括<strong>精确到医生和就诊人以及订单的状态，还可以对订单的详细信息进行查看</strong></p>
+</blockquote>
+
+
+
+
+<h3 id="1-5-统计管理"><a href="#1-5-统计管理" class="headerlink" title="1.5 统计管理"></a>1.5 统计管理</h3>
+
+<blockquote>
+<p>对订单进行统计：显示折线图</p>
+<p>//TODO 这里报了一个503的错误 swagger测试后端接口没有问题，请求能进到网关，但不能进入具体的服务，未修复</p>
+</blockquote>
+<h2 id="2-项目前台系统功能总结"><a href="#2-项目前台系统功能总结" class="headerlink" title="2.  项目前台系统功能总结"></a>2.  项目前台系统功能总结</h2><h3 id="2-1-首页数据显示"><a href="#2-1-首页数据显示" class="headerlink" title="2.1 首页数据显示"></a>2.1 首页数据显示</h3>
+
+<blockquote>
+<p>进入首页默认加载全部的医院 可以点击等级和地区的选项对医院进行查询，也可以通过搜索框对医院名称进行模糊查询</p>
+</blockquote>
+<h3 id="2-2-医院详情显示"><a href="#2-2-医院详情显示" class="headerlink" title="2.2 医院详情显示"></a>2.2 医院详情显示</h3>
+
+<blockquote>
+<p>点击具体医院后进入详情页，<strong>对医院的所有科室进行显示</strong>，并且通过左边的标签进行具体的操作，比如<strong>医院详情</strong>等</p>
+</blockquote>
+<h3 id="2-3-用户登录功能"><a href="#2-3-用户登录功能" class="headerlink" title="2.3 用户登录功能"></a>2.3 用户登录功能</h3>
+
+<blockquote>
+<p>在未登录的状态下，当用户点击右上角登录按钮或者点击具体科室进行预约挂号，将会弹出登录框</p>
+</blockquote>
+<h4 id="2-3-1-手机验证码登录"><a href="#2-3-1-手机验证码登录" class="headerlink" title="2.3.1 手机验证码登录"></a>2.3.1 手机验证码登录</h4><blockquote>
+<p>用户选择手机验证码登录后，输入验证码正确后完成登录</p>
+</blockquote>
+<h4 id="2-3-2-微信登录"><a href="#2-3-2-微信登录" class="headerlink" title="2.3.2 微信登录"></a>2.3.2 微信登录</h4>
+
+<blockquote>
+<p>用户通过微信扫码进行登录</p>
+</blockquote>
+<h3 id="2-4-用户具体功能实现"><a href="#2-4-用户具体功能实现" class="headerlink" title="2.4 用户具体功能实现"></a>2.4 用户具体功能实现</h3><h4 id="2-4-1-实名认证"><a href="#2-4-1-实名认证" class="headerlink" title="2.4.1 实名认证"></a>2.4.1 实名认证</h4>
+
+
+
+
+
+<h4 id="2-4-2-挂号订单"><a href="#2-4-2-挂号订单" class="headerlink" title="2.4.2 挂号订单"></a>2.4.2 挂号订单</h4>
+
+<blockquote>
+<p>用户可以点击挂号订单查看当前账号下的订单以及订单详情，并可以通过订单详情对订单进行取消预约等操作</p>
+</blockquote>
+
+
+<h4 id="2-4-3-就诊人管理"><a href="#2-4-3-就诊人管理" class="headerlink" title="2.4.3 就诊人管理"></a>2.4.3 就诊人管理</h4>
+
+<blockquote>
+<p>在该功能中可以<strong>对就诊人的详细信息进行查看，删除和修改</strong>，包括<strong>添加就诊人</strong>等操作（对就诊人进行CRUD）</p>
+</blockquote>
+
+
+
+
+<h3 id="2-5-预约挂号功能"><a href="#2-5-预约挂号功能" class="headerlink" title="2.5 预约挂号功能"></a>2.5 预约挂号功能</h3>
+
+<blockquote>
+<p>用户点击具体科室后 对医院的排班进行显示，并且显示当天的号源数量，点击号源数量后，可以进行预约挂号操作，并进行确认</p>
+</blockquote>
+
+
+<blockquote>
+<p>用户进行预约挂号确认操作之后可以进行取消预约和支付两个选项</p>
+</blockquote>
+
+
+<blockquote>
+<p>取消预约按钮，对当前预约挂号订单进行取消，选择支付按钮弹出微信支付，支付成功后显示已支付页面</p>
+</blockquote>
+
+
+
+
+
+
+<h3 id="2-6-就医提醒"><a href="#2-6-就医提醒" class="headerlink" title="2.6 就医提醒"></a>2.6 就医提醒</h3><blockquote>
+<p>使用阿里云短信并通过rabbitmq进行就医提醒功能</p>
+</blockquote>
+<h2 id="3-项目技术点总结"><a href="#3-项目技术点总结" class="headerlink" title="3. 项目技术点总结"></a>3. 项目技术点总结</h2><h3 id="1、SpringBoot（后端）"><a href="#1、SpringBoot（后端）" class="headerlink" title="1、SpringBoot（后端）"></a>1、SpringBoot（后端）</h3><blockquote>
+<p>使用SpringBoot搭建项目环境</p>
+</blockquote>
+<h3 id="2、SpringCloud"><a href="#2、SpringCloud" class="headerlink" title="2、SpringCloud"></a>2、SpringCloud</h3><ul>
+<li>Nacos注册中心</li>
 </ul>
-<p><img src="/img/study/JVM/1638610327534.png" alt="1638610327534"></p>
-<h2 id="5、GC（垃圾回收机制）"><a href="#5、GC（垃圾回收机制）" class="headerlink" title="5、GC（垃圾回收机制）"></a>5、GC（垃圾回收机制）</h2><pre><code>### 引用计数法
-</code></pre>
-<p><img src="/img/study/JVM/1638668563679.png" alt="1638668563679"></p>
-<p>这种方法本身并不高效，jvm中一般不会采用这种GC算法</p>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p><img src="/img/study/JVM/1638670329411.png" alt="1638670329411"></p>
-<p>从这张图片中我们可以看到，复制算法指的是发生在Eden和幸存区的一种GC算法，每一次进行GC时，Eden和from区都会被清空，from区会复制一份放到空的to区，然后from会被清空，to变成from，from变成to，一般情况下，在就<em><strong>经历15次GC后</strong></em>，活下来的就会进入养老区，当然我们可以通过jvm参数手动去设置这个值。</p>
-<p>好处：没有内存碎片</p>
-<p>坏处：1、浪费了内存空间：多了一般的空间永远是空的to，假设对象100%存活的话，这种算法的收益率就会很低，所以这种算法的最佳使用场景就是：新生区对象存活度比较低的时候</p>
-<h3 id="标记清除压缩算法"><a href="#标记清除压缩算法" class="headerlink" title="标记清除压缩算法"></a>标记清除压缩算法</h3><pre><code>#### 标记清除
-</code></pre>
-<p><img src="/img/study/JVM/1638671827945.png" alt="1638671827945"></p>
-<p>好处：不需要开辟额外的空间，上面的to区不再需要</p>
-<p>坏处：有内存碎片的产生，而且需要进行多次扫描，时间和资源成本增加了</p>
-<h3 id="标记压缩"><a href="#标记压缩" class="headerlink" title="标记压缩"></a>标记压缩</h3><p><img src="/img/study/JVM/1638671916966.png" alt="1638671916966"></p>
-<p>进行对象的移动，防止内存碎片的产生，但是时间和资源成本又增加了</p>
-<h3 id="标记清除压缩"><a href="#标记清除压缩" class="headerlink" title="标记清除压缩"></a>标记清除压缩</h3><p><img src="/img/study/JVM/1638672102617.png" alt="1638672102617"></p>
-<h3 id="GC（分代收集算法）算法总结"><a href="#GC（分代收集算法）算法总结" class="headerlink" title="GC（分代收集算法）算法总结"></a>GC（分代收集算法）算法总结</h3><p>内存效率：复制算法&gt;标记清除算法&gt;标记压缩算法（时间复杂度）</p>
-<p>内存整齐度：复制算法=标记压缩算法&gt;标记清除算法</p>
-<p>内存利用率：标记压缩算法=标记清除算法&gt;复制算法</p>
-<p><em><strong>没有最优的算法，只有最适合的算法！</strong></em></p>
-<p><strong>新生区</strong></p>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646103663870.png" class="" width="1646103663870">
+
+<p>进行服务的注册与发现（写的所有模块都会去nacos注册中心进行注册）</p>
+</blockquote>
 <ul>
-<li><p>存活率低</p>
+<li>Feign</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646104469826.png" class="" width="1646104469826">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646104632476.png" class="" width="1646104632476">
+</blockquote>
+<ul>
+<li>GateWay</li>
+</ul>
+<blockquote>
+<p>为本项目微服务提供简单、有效和统一的API路由管理方式，解决跨域问题，全局过滤，以及设置响应字符集编码等问题</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105012367.png" class="" width="1646105012367">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105241725.png" class="" width="1646105241725">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646105537778.png" class="" width="1646105537778">
+</blockquote>
+<h3 id="3、Redis"><a href="#3、Redis" class="headerlink" title="3、Redis"></a>3、Redis</h3><ul>
+<li>使用Spring Cache + Redis缓存数据</li>
+</ul>
+<blockquote>
+<p>Spring Cache 是一个非常优秀的缓存组件。自Spring 3.1起，提供了类似于@Transactional注解事务的注解Cache支持，且提供了Cache抽象，方便切换各种底层Cache（如：redis）</p>
+<p>使用Spring Cache的好处：</p>
+<p>​    1，提供基本的Cache抽象，方便切换各种底层Cache；</p>
+<p>​    2，通过注解Cache可以实现类似于事务一样，缓存逻辑透明的应用到我们的业务代码上，且只需要更少的代码就可以完成；</p>
+<p>​    3，提供事务回滚时也自动回滚缓存；</p>
+<p>​    4，支持比较复杂的缓存逻辑；</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646106686705.png" class="" width="1646106686705">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646106872356.png" class="" width="1646106872356">
+
+<p><strong>CachePut</strong>:使用该注解标志的方法，每次都会执行，并将结果存入指定的缓存中。其他方法可以直接从响应的缓存中读取缓存数据，而不需要再去查询数据库。一般用在新增方法上。</p>
+</blockquote>
+<ul>
+<li>验证码有效时间、支付二维码有效时间</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107123311.png" class="" width="1646107123311">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107278207.png" class="" width="1646107278207">
+</blockquote>
+<h3 id="4、MongoDB"><a href="#4、MongoDB" class="headerlink" title="4、MongoDB"></a>4、MongoDB</h3><ul>
+<li>使用MongoDB存储 医院相关数据</li>
+</ul>
+<blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646107437868.png" class="" width="1646107437868">
+
+<ul>
+<li>MongoDB：</li>
+</ul>
+<p>spring-data-mongodb提供了<strong>MongoTemplate</strong>与<strong>MongoRepository</strong>两种方式访问mongodb，<strong>MongoRepository操作简单（</strong>Spring Data提供了对mongodb数据访问的支持，我们只需要继承MongoRepository类，按照Spring Data规范就可以了<strong>）</strong>，<strong>MongoTemplate操作灵活</strong>（可以用来进行一些聚合，统计，分组等复杂操作），我们在项目中可以灵活适用这两种方式操作mongodb，MongoRepository的缺点是不够灵活，MongoTemplate正好可以弥补不足。</p>
+<ul>
+<li><p><strong>什么是MongoDB？（NoSql数据库）</strong></p>
+<p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。</p>
+<p>MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。</p>
 </li>
-<li><p>复制算法</p>
+<li><p><strong>为什么要使用MongoDB？</strong></p>
+<p>更像我们的关系型数据库，并且相较于Redis能实现一些更加复杂的查询操作</p>
+<p>1、MongoDB 是一个面向文档存储的数据库，操作起来比较简单和容易。</p>
+<p>2、你可以在MongoDB记录中设置任何属性的索引 (如：FirstName=”Sameer”,Address=”8 Gandhi Road”)来实现更快的排序。</p>
+<p>3、你可以通过本地或者网络创建数据镜像，这使得MongoDB有更强的扩展性。</p>
+<p>4、如果负载的增加（需要更多的存储空间和更强的处理能力） ，它可以分布在计算机网络中的其他节点上这就是所谓的分片。</p>
+<p>5、Mongo支持丰富的查询表达式。查询指令使用JSON形式的标记，可轻易查询文档中内嵌的对象及数组。</p>
+<p>6、MongoDb 使用update()命令可以实现替换完成的文档（数据）或者一些指定的数据字段 。</p>
+<p>7、Mongodb中的Map/reduce主要是用来对数据进行批量处理和聚合操作。</p>
+<p>8、Map和Reduce。Map函数调用emit(key,value)遍历集合中所有的记录，将key与value传给Reduce函数进行处理。</p>
+<p>9、Map函数和Reduce函数是使用Javascript编写的，并可以通过db.runCommand或mapreduce命令来执行MapReduce操作。</p>
+<p>10、GridFS是MongoDB中的一个内置功能，可以用于存放大量小文件。</p>
+<p>11、MongoDB允许在服务端执行脚本，可以用Javascript编写某个函数，直接在服务端执行，也可以把函数的定义存储在服务端，下次直接调用即可。</p>
+<p>12、MongoDB支持各种编程语言:RUBY，PYTHON，JAVA，C++，PHP，C#等多种语言。</p>
+<p>13、MongoDB安装简单。</p>
+</li>
+<li><p><strong>为什么使用NoSQL ？</strong></p>
+<p>1、对数据库高并发读写。</p>
+<p>2、对海量数据的高效率存储和访问。</p>
+<p>3、对数据库的高可扩展性和高可用性。</p>
+<p>弱点：</p>
+<p>1、数据库事务一致性需求</p>
+<p>2、数据库的写实时性和读实时性需求</p>
+<p>3、对复杂的SQL查询，特别是多表关联查询的需求</p>
 </li>
 </ul>
-<p><strong>老年区</strong></p>
+</blockquote>
+<h3 id="5、EasyExcel"><a href="#5、EasyExcel" class="headerlink" title="5、EasyExcel"></a>5、EasyExcel</h3><blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646108916683.png" class="" width="1646108916683">
+
 <ul>
-<li>区域大：存活率高</li>
-<li>标记清除（当内存碎片不多的时候）+标记压缩（内存碎片多就进行一次）混合使用</li>
+<li>为什么使用Easy Excel？</li>
 </ul>
-<p>6、JMM（Java Memory Model）</p>
-<p><img src="/img/study/JVM/1638675349616.png" alt="1638675349616"></p>
-<p><img src="/img/study/JVM/1638675388923.png" alt="1638675388923"></p>
+<p>Java解析、生成Excel比较有名的框架有Apache poi、jxl。但他们都存在一个严重的问题就是非常的耗内存，poi有一套SAX模式的API可以一定程度的解决一些内存溢出的问题，但POI还是有一些缺陷，比如07版Excel解压缩以及解压后存储都是在内存中完成的，内存消耗依然很大。easyexcel重写了poi对07版Excel的解析，能够原本一个3M的excel用POI sax依然需要100M左右内存降低到几M，并且再大的excel不会出现内存溢出，03版依赖POI的sax模式。在上层做了模型转换的封装，让使用者更加简单方便。</p>
+<p>EasyExcel是一个基于Java的简单、省内存的读写Excel的开源项目。在尽可能节约内存的情况下支持读写百M的Excel</p>
+</blockquote>
+<h3 id="6、MyBatisPlus"><a href="#6、MyBatisPlus" class="headerlink" title="6、MyBatisPlus"></a>6、MyBatisPlus</h3><blockquote>
+<p><a href="https://baomidou.com/pages/24112f/">简介 | MyBatis-Plus (baomidou.com)</a></p>
+<p>官网简介已经对MyBatis-Plus做了最好的解释</p>
+</blockquote>
+<h3 id="7、RabbitMQ"><a href="#7、RabbitMQ" class="headerlink" title="7、RabbitMQ"></a>7、RabbitMQ</h3><blockquote>
+<p>订单相关操作，发送mq消息</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114388134.png" class="" width="1646114388134">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114489646.png" class="" width="1646114489646">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114586210.png" class="" width="1646114586210">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114658635.png" class="" width="1646114658635">
+</blockquote>
+<h3 id="8、Docker"><a href="#8、Docker" class="headerlink" title="8、Docker"></a>8、Docker</h3><blockquote>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646114137055.png" class="" width="1646114137055">
+</blockquote>
+<h3 id="9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务"><a href="#9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务" class="headerlink" title="9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务"></a>9、阿里云服务：ECS服务器、阿里云OSS、阿里云短信服务</h3><ul>
+<li><p>ECS服务器：RabbitMQ，MongoDB，Redis都放在改服务器的docker容器中运行，该服务器使用基于Linux内核的CentOS 8操作系统</p>
+</li>
+<li><p>阿里云OSS：本项目中将用户认证的证件图片上传到阿里云OSS</p>
+<blockquote>
+<p>1、易用性：简单易用，便于管理，深度集成数据处理服务；</p>
+<p>2、高可靠：多重冗余备份，服务设计可用性不低于99.99%；</p>
+<p>3、强安全：多层次安全防护，支持跨区域复制、异地容灾机制；</p>
+<p>4、低成本：总体TCO更低，生命周期管理进一步降低成本。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 文件上传到阿里云oss</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> file</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">upload</span><span class="params">(MultipartFile file)</span> </span>&#123;</span><br><span class="line">       String endpoint = ConstantOssPropertiesUtils.EDNPOINT;</span><br><span class="line">       String accessKeyId = ConstantOssPropertiesUtils.ACCESS_KEY_ID;</span><br><span class="line">       String accessKeySecret = ConstantOssPropertiesUtils.SECRECT;</span><br><span class="line">       String bucketName = ConstantOssPropertiesUtils.BUCKET;</span><br><span class="line">  </span><br><span class="line">       <span class="comment">// 创建OSSClient实例。</span></span><br><span class="line">       OSS ossClient = <span class="keyword">new</span> OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//上传文件流</span></span><br><span class="line">           InputStream inputStream = file.getInputStream();</span><br><span class="line">           String fileName = file.getOriginalFilename();</span><br><span class="line">           <span class="comment">//生成随机唯一值，使用uuid，添加到文件名称里面</span></span><br><span class="line">           String uuid = UUID.randomUUID().toString().replaceAll(<span class="string">&quot;-&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line">           fileName = uuid + fileName;</span><br><span class="line">           <span class="comment">//按照当前日期，创建文件夹，上传到创建的文件夹里面</span></span><br><span class="line">           String timeUrl = <span class="keyword">new</span> DateTime().toString(<span class="string">&quot;yyyy/MM/dd&quot;</span>);</span><br><span class="line">           fileName = timeUrl+<span class="string">&quot;/&quot;</span>+fileName;</span><br><span class="line">           <span class="comment">// 创建PutObject请求。</span></span><br><span class="line">           ossClient.putObject(bucketName, fileName, inputStream);</span><br><span class="line">  </span><br><span class="line">           <span class="comment">//返回上传之后的文件路径</span></span><br><span class="line">           String url = <span class="string">&quot;https://&quot;</span>+bucketName+<span class="string">&quot;.&quot;</span>+endpoint+<span class="string">&quot;/&quot;</span>+fileName;</span><br><span class="line">  </span><br><span class="line">           <span class="keyword">return</span> url;</span><br><span class="line">       &#125; <span class="keyword">catch</span> (OSSException oe) &#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;Caught an OSSException, which means your request made it to OSS, &quot;</span></span><br><span class="line">                   + <span class="string">&quot;but was rejected with an error response for some reason.&quot;</span>);</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Message:&quot;</span> + oe.getErrorMessage());</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Code:&quot;</span> + oe.getErrorCode());</span><br><span class="line">           System.out.println(<span class="string">&quot;Request ID:&quot;</span> + oe.getRequestId());</span><br><span class="line">           System.out.println(<span class="string">&quot;Host ID:&quot;</span> + oe.getHostId());</span><br><span class="line">       &#125; <span class="keyword">catch</span> (ClientException ce) &#123;</span><br><span class="line">           System.out.println(<span class="string">&quot;Caught an ClientException, which means the client encountered &quot;</span></span><br><span class="line">                   + <span class="string">&quot;a serious internal problem while trying to communicate with OSS, &quot;</span></span><br><span class="line">                   + <span class="string">&quot;such as not being able to access the network.&quot;</span>);</span><br><span class="line">           System.out.println(<span class="string">&quot;Error Message:&quot;</span> + ce.getMessage());</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (ossClient != <span class="keyword">null</span>) &#123;</span><br><span class="line">               ossClient.shutdown();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>阿里云短信服务：</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646116033590.png" class="" width="1646116033590">
+
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646115797592.png" class="" width="1646115797592"></li>
+</ul>
+<h3 id="10、微信登录-支付"><a href="#10、微信登录-支付" class="headerlink" title="10、微信登录/支付"></a>10、微信登录/支付</h3><blockquote>
+<p>通过调用微信接口实现微信的登录和支付功能</p>
+<p>官网有具体的API实现文档：<a href="https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/product/wxcloudrun.html">第三方平台云服务 | 微信开放文档 (qq.com)</a></p>
+</blockquote>
+<h3 id="11、定时任务（-Scheduled注解）"><a href="#11、定时任务（-Scheduled注解）" class="headerlink" title="11、定时任务（@Scheduled注解）"></a>11、定时任务（@Scheduled注解）</h3><img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/1646116264348.png" class="" width="1646116264348">
+
+<h3 id="12、vue（前端）"><a href="#12、vue（前端）" class="headerlink" title="12、vue（前端）"></a>12、vue（前端）</h3><blockquote>
+<p>快速构建前端的工具</p>
+<p>是一套用于构建<a href="https://baike.baidu.com/item/%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2/6582461">用户界面</a>的渐进式<a href="https://baike.baidu.com/item/JavaScript/321142">JavaScript</a>框架。</p>
+<p>本项目采用的是Vue2.5.17</p>
+</blockquote>
+<h3 id="13、Element-UI"><a href="#13、Element-UI" class="headerlink" title="13、Element-UI"></a>13、Element-UI</h3><blockquote>
+<p>Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库</p>
+</blockquote>
+<h3 id="14、Nuxt"><a href="#14、Nuxt" class="headerlink" title="14、Nuxt"></a>14、Nuxt</h3><blockquote>
+<p>Nuxt.js 是一个基于 Vue.js 的轻量级应用框架,可用来创建服务端渲染 (SSR) 应用,也可充当静态站点引擎生成静态站点应用,具有优雅的代码结构分层和热加载等特性。</p>
+<p>服务端渲染又称SSR (Server Side Render)是在服务端完成页面的内容，而不是在客户端通过AJAX获取数据。</p>
+<p>服务器端渲染(SSR)的优势主要在于：更好的 SEO，由于搜索引擎爬虫抓取工具可以直接查看完全渲染的页面。</p>
+<p>如果你的应用程序初始展示 loading 菊花图，然后通过 Ajax 获取内容，抓取工具并不会等待异步完成后再进行页面内容的抓取。也就是说，如果 SEO 对你的站点至关重要，而你的页面又是异步获取内容，则你可能需要服务器端渲染(SSR)解决此问题。</p>
+<p>另外，使用服务器端渲染，我们可以获得更快的内容到达时间(time-to-content)，无需等待所有的 JavaScript 都完成下载并执行，产生更好的用户体验，对于那些内容到达时间(time-to-content)与转化率直接相关的应用程序而言，服务器端渲染(SSR)至关重要。</p>
+</blockquote>
+<h3 id="15、Node-js"><a href="#15、Node-js" class="headerlink" title="15、Node.js"></a>15、Node.js</h3><blockquote>
+<p>脱离浏览器环境也可以运行JavaScript，只要有JavaScript引擎就可以。</p>
+<p>Node.js是一个基于Chrome V8引擎的JavaScript运行环境：即Node.js内置了Chrome的V8 引擎，可以在Node.js环境中直接运行JavaScript程序。</p>
+<p>在Node.js中写JavaScript和在Chrome浏览器中写JavaScript基本没有什么不一样。哪里不一样呢？</p>
+<p>Node.js没有浏览器API，即document，window的等。加了许多Node.js 专属API，例如文件系统，进程http</p>
+<p>功能。</p>
+<p>通常他会被用来作一个BFF层，即 Backend For Frontend（服务于前端的后端），通俗的说是一个专门用于为前端业务提供数据的后端程序</p>
+<ul>
+<li><p>什么是BFF层？</p>
+<p>一个前端页面向 Service A、Service B 以及 Service C发送请求，不同的微服务返回的值用于渲染页面中不同的组件。此时，每次访问该页面都需要发送 3 个请求。我们需要一个服务来聚合Service A、Service B 以及 Service C响应的数据，这个服务层叫做BFF。</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/clip_image002.gif" class="" title="IMG_256">
+
+<p>手机、平板端、PC机等用户终端都需要向每个Service，例如Service A发送请求。对于同一个功能，不同的终端需要的数据格式和内容会有不同。此时 Service A 的一个接口，不能同时满足三个客户端的不同需求。我们可以在Service A中开发三个接口，也可以增加一个数据裁剪服务，将数据按照不同终端的不同要求进行裁剪，这个服务层叫做BFF。</p>
+<img src="/2022/03/01/%E5%B0%9A%E7%A1%85%E8%B0%B7-%E5%B0%9A%E5%8C%BB%E9%80%9A%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/clip_image004.gif" class="" title="IMG_256">
+
+<p>BFF层的作用是让前端有能力自由组装后台数据，减少大量的业务沟通成本，加快业务的迭代速度。</p>
+<p>无论是数据聚合还是数据剪裁，这类程序的特点是不需要太强大的服务器运算能力，但是对程序的灵活性有较高的要求，这两个特点都正好和Node.js的优势相吻合。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="16、npm"><a href="#16、npm" class="headerlink" title="16、npm"></a>16、npm</h3><blockquote>
+<p>npm是 JavaScript 世界的<strong>包管理工具</strong>,并且是 Node.js 平台的默认包管理工具。通过 <em>npm</em> 可以安装、共享、分发代码,管理项目依赖关系，相当于前端的Maven</p>
+</blockquote>
+<h3 id="17、ECharts"><a href="#17、ECharts" class="headerlink" title="17、ECharts"></a>17、ECharts</h3><blockquote>
+<p>一个基于 JavaScript 的开源可视化图表库</p>
+<p><a href="https://echarts.apache.org/zh/index.html">官方地址：Apache ECharts</a></p>
+<p>本项目中用来实现订单数据的图表显示</p>
+</blockquote>
+<h3 id="18、axios"><a href="#18、axios" class="headerlink" title="18、axios"></a>18、axios</h3><blockquote>
+<p>axios是独立于vue的一个项目，可以用于浏览器和node.js中发送ajax请求</p>
+</blockquote>
+<h2 id="4-前后端代码地址"><a href="#4-前后端代码地址" class="headerlink" title="4. 前后端代码地址"></a>4. 前后端代码地址</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">gitee代码仓库: https:<span class="comment">//gitee.com/CoderVan99/yygh_parent</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>学习</category>
       </categories>
       <tags>
-        <tag>JVM</tag>
-        <tag>面试</tag>
-        <tag>GC</tag>
+        <tag>项目总结</tag>
+        <tag>Spring Cloud</tag>
+        <tag>分布式</tag>
+        <tag>微服务</tag>
+        <tag>前后端分离</tag>
       </tags>
   </entry>
   <entry>
